@@ -1075,23 +1075,12 @@ _ZNODISCARD _ZCONSTEXPR20 _Ty accumulate(_Cont_T& _Cont, _Ty _Val) {
 
 template <class _Cont_T>
 _ZNODISCARD _ZCONSTEXPR20 auto acc(_Cont_T& _Cont) {
-    return accumulate(begin(_Cont), end(_Cont), typename remove_reference<decltype(*(begin(_Cont)))>::type(0));
+    return accumulate(begin(_Cont), end(_Cont), typename remove_reference<decltype(*(begin(_Cont)))>::type());
 }
-
-template<typename T>
-struct zbfunction_traits;
-
-template<typename R, typename Arg1, typename Arg2>
-struct zbfunction_traits<std::function<R(*)(Arg1, Arg2)>>
-{
-    typedef R result_type;
-    typedef Arg1 param1;
-    typedef Arg2 param2;
-};
 
 template <class _Cont_T, class _Fn>
 _ZNODISCARD _ZCONSTEXPR20 auto acc(_Cont_T& _Cont, _Fn _Reduce_op) {
-    return accumulate(begin(_Cont), end(_Cont), zbfunction_traits<function<_Fn> >::param1(0), _Reduce_op);
+    return accumulate(begin(_Cont), end(_Cont), typename remove_reference<decltype(*(begin(_Cont)))>::type(), _Reduce_op);
 }
 
 // FUNCTION TEMPLATE inner_product
