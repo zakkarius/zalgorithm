@@ -1,1339 +1,1250 @@
 #pragma once
-#ifndef _ZALGORITHM_
-#define _ZALGORITHM_
+#ifndef ZALGORITHM_
+#define ZALGORITHM_
 #include <algorithm>
 #include <numeric>
+#include <type_traits>
 
 #if defined _MSC_VER
     #pragma pack(push, _CRT_PACKING)
 #endif
-#define _ZNODISCARD [[nodiscard]]
+#define ZNODISCARD [[nodiscard]]
 #if __cplusplus > 201703L
-    #define _ZCONSTEXPR20 constexpr
+    #define ZCONSTEXPR20 constexpr
 #else
-    #define _ZCONSTEXPR20 inline
+    #define ZCONSTEXPR20 inline
 #endif
 
-namespace std {
-
-template <class _Iter>
-using _ZIter_diff_t = typename iterator_traits<_Iter>::difference_type;
-
-template <class _Iter>
-using _ZIter_value_t = typename iterator_traits<_Iter>::value_type;
+namespace zstd {
 
 
 // FUNCTION TEMPLATE for_each
-template <class _Cont_T, class _Fn>
-_ZCONSTEXPR20 _Fn for_each(_Cont_T& _Cont, _Fn _Func) { // perform function for each element [_First, _Last)
-    return for_each(begin(_Cont), end(_Cont), _Func);
+template <class Cont_T, class Fn>
+ZCONSTEXPR20 Fn for_each(Cont_T& Cont, Fn Func) { // perform function for each element [First, Last)
+    return std::for_each(std::begin(Cont), std::end(Cont), Func);
 }
 
 
 // FUNCTION TEMPLATE find_if_not
-template <class _Cont_T, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto find_if_not(_Cont_T& _Cont, _Pr _Pred) {
-    return find_if_not(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto find_if_not(Cont_T& Cont, Pr Pred) {
+    return std::find_if_not(std::begin(Cont), std::end(Cont), Pred);
 }
 
 
 // FUNCTION TEMPLATE adjacent_find
-template <class _Cont_T, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto adjacent_find(_Cont_T& _Cont, _Pr _Pred) {
-    return adjacent_find(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto adjacent_find(Cont_T& Cont, Pr Pred) {
+    return std::adjacent_find(std::begin(Cont), std::end(Cont), Pred);
 }
 
-template <class _Cont_T>
-_ZNODISCARD _ZCONSTEXPR20 auto adjacent_find(_Cont_T& _Cont) { // find first matching successor
-    return adjacent_find(begin(_Cont), end(_Cont));
+template <class Cont_T>
+ZNODISCARD ZCONSTEXPR20 auto adjacent_find(Cont_T& Cont) { // find first matching successor
+    return std::adjacent_find(std::begin(Cont), std::end(Cont));
 }
 
 
 // FUNCTION TEMPLATE count_if
-template <class _Cont_T, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto count_if(_Cont_T& _Cont, _Pr _Pred) {
-    return count_if(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto count_if(Cont_T& Cont, Pr Pred) {
+    return std::count_if(std::begin(Cont), std::end(Cont), Pred);
 }
 
 
 // FUNCTION TEMPLATE mismatch
-template <class _Cont_T, class _InIt2, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto mismatch(_Cont_T& _Cont, _InIt2 _First2, _Pr _Pred) {
-    return mismatch(begin(_Cont), end(_Cont), _First2, _Pred);
+template <class Cont_T, class InIt2, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto mismatch(Cont_T& Cont, InIt2 First2, Pr Pred) {
+    return std::mismatch(std::begin(Cont), std::end(Cont), First2, Pred);
 }
 
 
 // FUNCTION TEMPLATE mismatch
-template <class _Cont_T, class _Cont_T2, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto mismatch(_Cont_T& _Cont1, _Cont_T2& _Cont2, _Pr _Pred, bool _FromBeginToEnd = false) {
-    return _FromBeginToEnd ?
-        mismatch(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), _Pred) :
-        mismatch(begin(_Cont1), end(_Cont1), begin(_Cont2), _Pred);
+template <class Cont_T, class Cont_T2, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto mismatch(Cont_T& Cont1, Cont_T2& Cont2, Pr Pred, bool FromBeginToEnd = false) {
+    return FromBeginToEnd ?
+        std::mismatch(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), Pred) :
+        std::mismatch(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), Pred);
 }
 
 
-template <class _Cont_T, class _InIt2>
-_ZNODISCARD _ZCONSTEXPR20 auto mismatch(_Cont_T& _Cont, const _InIt2 _First2) {
-    return mismatch(begin(_Cont), end(_Cont), _First2);
+template <class Cont_T, class InIt2>
+ZNODISCARD ZCONSTEXPR20 auto mismatch(Cont_T& Cont, const InIt2 First2) {
+    return std::mismatch(std::begin(Cont), std::end(Cont), First2);
 }
 
 
-template <class _Cont_T, class _Cont_T2>
-_ZNODISCARD _ZCONSTEXPR20 auto mismatch(_Cont_T& _Cont1, _Cont_T2& _Cont2, bool _FromBeginToEnd = false) {
-    return _FromBeginToEnd ?
-        mismatch(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2)) : mismatch(begin(_Cont1), end(_Cont1), begin(_Cont2));
+template <class Cont_T, class Cont_T2>
+ZNODISCARD ZCONSTEXPR20 auto mismatch(Cont_T& Cont1, Cont_T2& Cont2, bool FromBeginToEnd = false) {
+    return FromBeginToEnd ?
+        std::mismatch(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2)) :
+        std::mismatch(std::begin(Cont1), std::end(Cont1), std::begin(Cont2));
 }
 
 
-template <class _Cont_T, class _InIt2, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto mismatch(_Cont_T& _Cont, _InIt2 _First2, _InIt2 _Last2, _Pr _Pred) {
-    return mismatch(begin(_Cont), end(_Cont), _First2, _Last2, _Pred);
+template <class Cont_T, class InIt2, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto mismatch(Cont_T& Cont, InIt2 First2, InIt2 Last2, Pr Pred) {
+    return std::mismatch(std::begin(Cont), std::end(Cont), First2, Last2, Pred);
 }
 
 
-template <class _Cont_T, class _InIt2>
-_ZNODISCARD _ZCONSTEXPR20 auto mismatch(_Cont_T& _Cont, _InIt2 _First2, _InIt2 _Last2) {
-    return mismatch(begin(_Cont), end(_Cont), _First2, _Last2);
+template <class Cont_T, class InIt2>
+ZNODISCARD ZCONSTEXPR20 auto mismatch(Cont_T& Cont, InIt2 First2, InIt2 Last2) {
+    return std::mismatch(std::begin(Cont), std::end(Cont), First2, Last2);
 }
 
 
 // FUNCTION TEMPLATE is_permutation
-template <class _Cont_T, class _FwdIt2>
-_ZNODISCARD _ZCONSTEXPR20 bool is_permutation(_Cont_T& _Cont, _FwdIt2 _First2) {
-    return is_permutation(begin(_Cont), end(_Cont), _First2);
+template <class Cont_T, class FwdIt2>
+ZNODISCARD ZCONSTEXPR20 bool is_permutation(Cont_T& Cont, FwdIt2 First2) {
+    return std::is_permutation(std::begin(Cont), std::end(Cont), First2);
 }
 
-template <class _Cont_T, class _FwdIt2>
-_ZNODISCARD _ZCONSTEXPR20 bool is_permutation(_Cont_T& _Cont, _FwdIt2 _First2, _FwdIt2 _Last2) {
-    return is_permutation(begin(_Cont), end(_Cont), _First2, _Last2);
+template <class Cont_T, class FwdIt2>
+ZNODISCARD ZCONSTEXPR20 bool is_permutation(Cont_T& Cont, FwdIt2 First2, FwdIt2 Last2) {
+    return std::is_permutation(std::begin(Cont), std::end(Cont), First2, Last2);
 }
 
-template <class _Cont_T, class _Cont_T2>
-_ZNODISCARD _ZCONSTEXPR20 bool is_permutation(_Cont_T& _Cont1, _Cont_T2& _Cont2, bool _FromBeginToEnd = false) {
-    return _FromBeginToEnd ?
-        is_permutation(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2)) :
-        is_permutation(begin(_Cont1), end(_Cont1), begin(_Cont2));
+template <class Cont_T, class Cont_T2>
+ZNODISCARD ZCONSTEXPR20 bool is_permutation(Cont_T& Cont1, Cont_T2& Cont2, bool FromBeginToEnd = false) {
+    return FromBeginToEnd ?
+        std::is_permutation(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2)) :
+        std::is_permutation(std::begin(Cont1), std::end(Cont1), std::begin(Cont2));
 }
 
-template <class _Cont_T, class _FwdIt2, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 bool is_permutation(_Cont_T& _Cont, _FwdIt2 _First2, _Pr _Pred) {
-    return is_permutation(begin(_Cont), end(_Cont), _First2, _Pred);
+template <class Cont_T, class FwdIt2, class Pr>
+ZNODISCARD ZCONSTEXPR20 bool is_permutation(Cont_T& Cont, FwdIt2 First2, Pr Pred) {
+    return std::is_permutation(std::begin(Cont), std::end(Cont), First2, Pred);
 }
 
-template <class _Cont_T, class _FwdIt2, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 bool is_permutation(_Cont_T& _Cont, _FwdIt2 _First2, _FwdIt2 _Last2, _Pr _Pred) {
-    return is_permutation(begin(_Cont), end(_Cont), _First2, _Last2, _Pred);
+template <class Cont_T, class FwdIt2, class Pr>
+ZNODISCARD ZCONSTEXPR20 bool is_permutation(Cont_T& Cont, FwdIt2 First2, FwdIt2 Last2, Pr Pred) {
+    return std::is_permutation(std::begin(Cont), std::end(Cont), First2, Last2, Pred);
 }
 
-template <class _Cont_T, class _Cont_T2, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 bool is_permutation(_Cont_T& _Cont1, _Cont_T2& _Cont2, _Pr _Pred, bool _FromBeginToEnd = false) {
-    return _FromBeginToEnd ?
-        is_permutation(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), _Pred) :
-        is_permutation(begin(_Cont1), end(_Cont1), begin(_Cont2), _Pred);
+template <class Cont_T, class Cont_T2, class Pr>
+ZNODISCARD ZCONSTEXPR20 bool is_permutation(Cont_T& Cont1, Cont_T2& Cont2, Pr Pred, bool FromBeginToEnd = false) {
+    return FromBeginToEnd ?
+        std::is_permutation(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), Pred) :
+        std::is_permutation(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), Pred);
 }
 
 
 // FUNCTION TEMPLATE all_of
-template <class _Cont_T, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 bool all_of(_Cont_T& _Cont, _Pr _Pred) { // test if all elements satisfy _Pred
-    return all_of(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZNODISCARD ZCONSTEXPR20 bool all_of(Cont_T& Cont, Pr Pred) { // test if all elements satisfy Pred
+    return std::all_of(std::begin(Cont), std::end(Cont), Pred);
 }
 
 
 // FUNCTION TEMPLATE any_of
-template <class _Cont_T, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 bool any_of(_Cont_T& _Cont, _Pr _Pred) {
-    return any_of(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZNODISCARD ZCONSTEXPR20 bool any_of(Cont_T& Cont, Pr Pred) {
+    return std::any_of(std::begin(Cont), std::end(Cont), Pred);
 }
 
 
 // FUNCTION TEMPLATE none_of
-template <class _Cont_T, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 bool none_of(_Cont_T& _Cont, _Pr _Pred) {
-    return none_of(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZNODISCARD ZCONSTEXPR20 bool none_of(Cont_T& Cont, Pr Pred) {
+    return std::none_of(std::begin(Cont), std::end(Cont), Pred);
 }
 
 
 // FUNCTION TEMPLATE copy_if
-template <class _Cont_T, class _OutIt, class _Pr>
-_ZCONSTEXPR20 auto copy_if(_Cont_T& _Cont, _OutIt _Dest, _Pr _Pred) { // copy each satisfying _Pred
-    return copy_if(begin(_Cont), end(_Cont), _Dest, _Pred);
+template <class Cont_T, class OutIt, class Pr>
+ZCONSTEXPR20 auto copy_if(Cont_T& Cont, OutIt Dest, Pr Pred) { // copy each satisfying Pred
+    return std::copy_if(std::begin(Cont), std::end(Cont), Dest, Pred);
 }
 
 
-template <class _Cont_T, class _Pr, class _Dest_Cont_T>
-_ZCONSTEXPR20 auto copy_if(_Cont_T& _Cont, _Dest_Cont_T& _Dest, _Pr _Pred) { // copy each satisfying _Pred
-    return copy_if(begin(_Cont), end(_Cont), begin(_Dest), _Pred);
+template <class Cont_T, class Pr, class DestCont_T>
+ZCONSTEXPR20 auto copy_if(Cont_T& Cont, DestCont_T& Dest, Pr Pred) { // copy each satisfying Pred
+    return std::copy_if(std::begin(Cont), std::end(Cont), std::begin(Dest), Pred);
 }
 
 
 // FUNCTION TEMPLATE partition_copy
-template <class _Cont_T, class _OutIt1, class _OutIt2, class _Pr>
-_ZCONSTEXPR20 auto partition_copy(_Cont_T& _Cont, _OutIt1 _Dest_true, _OutIt2 _Dest_false, _Pr _Pred) {
-    return partition_copy(begin(_Cont), end(_Cont), _Dest_true, _Dest_false, _Pred);
+template <class Cont_T, class OutIt1, class OutIt2, class Pr>
+ZCONSTEXPR20 auto partition_copy(Cont_T& Cont, OutIt1 Dest_true, OutIt2 Dest_false, Pr Pred) {
+    return std::partition_copy(std::begin(Cont), std::end(Cont), Dest_true, Dest_false, Pred);
 }
 
-template <class _Cont_T, class _Dest_true_Cont_T, class _Dest_false_Cont_T, class _Pr>
-_ZCONSTEXPR20 auto partition_copy(_Cont_T& _Cont, _Dest_true_Cont_T& _Dest_true, _Dest_false_Cont_T& _Dest_false, _Pr _Pred) {
-    return partition_copy(begin(_Cont), end(_Cont), begin(_Dest_true), begin(_Dest_false), _Pred);
+template <class Cont_T, class Dest_trueCont_T, class Dest_falseCont_T, class Pr>
+ZCONSTEXPR20 auto partition_copy(Cont_T& Cont, Dest_trueCont_T& Dest_true, Dest_falseCont_T& Dest_false, Pr Pred) {
+    return std::partition_copy(std::begin(Cont), std::end(Cont), std::begin(Dest_true), std::begin(Dest_false), Pred);
 }
 
 
 // FUNCTION TEMPLATE is_partitioned
-template <class _Cont_T, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 bool is_partitioned(_Cont_T& _Cont, _Pr _Pred) {
-    return is_partitioned(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZNODISCARD ZCONSTEXPR20 bool is_partitioned(Cont_T& Cont, Pr Pred) {
+    return std::is_partitioned(std::begin(Cont), std::end(Cont), Pred);
 }
 
 
 // FUNCTION TEMPLATE partition_point
-template <class _Cont_T, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto partition_point(_Cont_T& _Cont, _Pr _Pred) {
-    return partition_point(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto partition_point(Cont_T& Cont, Pr Pred) {
+    return std::partition_point(std::begin(Cont), std::end(Cont), Pred);
 }
 
-template <class _Cont_T, class _FwdItPat, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto search(_Cont_T& _Cont, const _FwdItPat _First2,
-    const _FwdItPat _Last2, _Pr _Pred) { // find first [_First2, _Last2) satisfying _Pred
-    return search(begin(_Cont), end(_Cont), _First2, _Last2, _Pred);
+template <class Cont_T, class FwdItPat, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto search(Cont_T& Cont, const FwdItPat First2,
+    const FwdItPat Last2, Pr Pred) { // find first [First2, Last2) satisfying Pred
+    return std::search(std::begin(Cont), std::end(Cont), First2, Last2, Pred);
 }
 
-template <class _Cont_T, class _Cont_T2, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto search(_Cont_T& _Cont1, _Cont_T2& _Cont2, _Pr _Pred) { // find first [_First2, _Last2) satisfying _Pred
-    return search(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), _Pred);
-}
-
-
-template <class _Cont_T, class _FwdItPat>
-_ZNODISCARD _ZCONSTEXPR20 auto search(_Cont_T& _Cont, const _FwdItPat _First2, const _FwdItPat _Last2) {
-    return search(begin(_Cont), end(_Cont), _First2, _Last2);
+template <class Cont_T, class Cont_T2, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto search(Cont_T& Cont1, Cont_T2& Cont2, Pr Pred) { // find first [First2, Last2) satisfying Pred
+    return std::search(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), Pred);
 }
 
 
-template <class _Cont_T, class _Cont_T2>
-_ZNODISCARD _ZCONSTEXPR20 auto search(_Cont_T& _Cont1, _Cont_T2& _Cont2) {
-    return search(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2));
+template <class Cont_T, class FwdItPat>
+ZNODISCARD ZCONSTEXPR20 auto search(Cont_T& Cont, const FwdItPat First2, const FwdItPat Last2) {
+    return std::search(std::begin(Cont), std::end(Cont), First2, Last2);
 }
 
 
-template <class _Cont_T, class _Searcher>
-_ZNODISCARD _ZCONSTEXPR20 auto search(_Cont_T& _Cont, const _Searcher& _Search) {
-    return search(begin(_Cont), end(_Cont), _Search);
+template <class Cont_T, class Cont_T2>
+ZNODISCARD ZCONSTEXPR20 auto search(Cont_T& Cont1, Cont_T2& Cont2) {
+    return std::search(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2));
+}
+
+
+template <class Cont_T, class Searcher>
+ZNODISCARD ZCONSTEXPR20 auto search(Cont_T& Cont, const Searcher& Search) {
+    return std::search(std::begin(Cont), std::end(Cont), Search);
 }
 
 
 // FUNCTION TEMPLATE search_n
-template <class _Cont_T, class _Diff, class _Ty, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto search_n(_Cont_T& _Cont, const _Diff _Count_raw, const _Ty& _Val, _Pr _Pred) {
-    return search_n(begin(_Cont), end(_Cont), _Count_raw, _Val, _Pred);
+template <class Cont_T, class Diff, class Ty, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto search_n(Cont_T& Cont, const Diff Count_raw, const Ty& Val, Pr Pred) {
+    return std::search_n(std::begin(Cont), std::end(Cont), Count_raw, Val, Pred);
 }
 
 
-template <class _Cont_T, class _Diff, class _Ty>
-_ZNODISCARD _ZCONSTEXPR20 auto search_n(_Cont_T& _Cont, const _Diff _Count, const _Ty& _Val) {
-    return search_n(begin(_Cont), end(_Cont), _Count, _Val);
-}
-
-
-// FUNCTION TEMPLATE find_end
-template <class _Cont_T, class _FwdIt2, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto find_end(_Cont_T& _Cont, const _FwdIt2 _First2, const _FwdIt2 _Last2, _Pr _Pred) {
-    return find_end(begin(_Cont), end(_Cont), _First2, _Last2, _Pred);
+template <class Cont_T, class Diff, class Ty>
+ZNODISCARD ZCONSTEXPR20 auto search_n(Cont_T& Cont, const Diff Count, const Ty& Val) {
+    return std::search_n(std::begin(Cont), std::end(Cont), Count, Val);
 }
 
 
 // FUNCTION TEMPLATE find_end
-template <class _Cont_T, class _Cont_T2, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto find_end(_Cont_T& _Cont1, _Cont_T2& _Cont2, _Pr _Pred) {
-    return find_end(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), _Pred);
+template <class Cont_T, class FwdIt2, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto find_end(Cont_T& Cont, const FwdIt2 First2, const FwdIt2 Last2, Pr Pred) {
+    return std::find_end(std::begin(Cont), std::end(Cont), First2, Last2, Pred);
 }
 
-template <class _Cont_T, class _FwdIt2>
-_ZNODISCARD _ZCONSTEXPR20 auto find_end(_Cont_T& _Cont, const _FwdIt2 _First2, const _FwdIt2 _Last2) {
-    return find_end(begin(_Cont), end(_Cont), _First2, _Last2);
+
+// FUNCTION TEMPLATE find_end
+template <class Cont_T, class Cont_T2, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto find_end(Cont_T& Cont1, Cont_T2& Cont2, Pr Pred) {
+    return std::find_end(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), Pred);
 }
 
-template <class _Cont_T, class _Cont_T2>
-_ZNODISCARD _ZCONSTEXPR20 auto find_end(_Cont_T& _Cont1, _Cont_T2& _Cont2) {
-    return find_end(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2));
+template <class Cont_T, class FwdIt2>
+ZNODISCARD ZCONSTEXPR20 auto find_end(Cont_T& Cont, const FwdIt2 First2, const FwdIt2 Last2) {
+    return std::find_end(std::begin(Cont), std::end(Cont), First2, Last2);
+}
+
+template <class Cont_T, class Cont_T2>
+ZNODISCARD ZCONSTEXPR20 auto find_end(Cont_T& Cont1, Cont_T2& Cont2) {
+    return std::find_end(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2));
 }
 
 
 // FUNCTION TEMPLATE find_first_of
-template <class _Cont_T, class _FwdIt2, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto find_first_of(_Cont_T& _Cont, const _FwdIt2 _First2, const _FwdIt2 _Last2, _Pr _Pred) {
-    return find_first_of(begin(_Cont), end(_Cont), _First2, _Last2, _Pred);
+template <class Cont_T, class FwdIt2, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto find_first_of(Cont_T& Cont, const FwdIt2 First2, const FwdIt2 Last2, Pr Pred) {
+    return std::find_first_of(std::begin(Cont), std::end(Cont), First2, Last2, Pred);
 }
 
 
 // FUNCTION TEMPLATE find_first_of
-template <class _Cont_T, class _Cont_T2, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto find_first_of(_Cont_T& _Cont1, _Cont_T2& _Cont2, _Pr _Pred) {
-    return find_first_of(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), _Pred);
+template <class Cont_T, class Cont_T2, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto find_first_of(Cont_T& Cont1, Cont_T2& Cont2, Pr Pred) {
+    return std::find_first_of(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), Pred);
 }
 
-template <class _Cont_T, class _FwdIt2>
-_ZNODISCARD _ZCONSTEXPR20 auto find_first_of(_Cont_T& _Cont, const _FwdIt2 _First2,
-    const _FwdIt2 _Last2) { // look for one of [_First2, _Last2) that matches element
-    return find_first_of(begin(_Cont), end(_Cont), _First2, _Last2);
+template <class Cont_T, class FwdIt2>
+ZNODISCARD ZCONSTEXPR20 auto find_first_of(Cont_T& Cont, const FwdIt2 First2, const FwdIt2 Last2) { // look for one of [First2, Last2) that matches element
+    return std::find_first_of(std::begin(Cont), std::end(Cont), First2, Last2);
 }
 
-template <class _Cont_T, class _Cont_T2>
-_ZNODISCARD _ZCONSTEXPR20 auto find_first_of(_Cont_T& _Cont1, _Cont_T2& _Cont2) { // look for one of [_First2, _Last2) that matches element
-    return find_first_of(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2));
-}
-
-
-// FUNCTION TEMPLATE swap_ranges
-template <class _Cont_T, class _FwdIt2>
-_ZCONSTEXPR20 auto swap_ranges(_Cont_T& _Cont, _FwdIt2 _First2) {
-    return swap_ranges(begin(_Cont), end(_Cont), _First2);
+template <class Cont_T, class Cont_T2>
+ZNODISCARD ZCONSTEXPR20 auto find_first_of(Cont_T& Cont1, Cont_T2& Cont2) { // look for one of [First2, Last2) that matches element
+    return std::find_first_of(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2));
 }
 
 
 // FUNCTION TEMPLATE swap_ranges
-template <class _Cont_T, class _Cont_T2>
-_ZCONSTEXPR20 auto swap_ranges(_Cont_T& _Cont1, _Cont_T2& _Cont2) {
-    return swap_ranges(begin(_Cont1), end(_Cont1), begin(_Cont2));
+template <class Cont_T, class FwdIt2>
+ZCONSTEXPR20 auto swap_ranges(Cont_T& Cont, FwdIt2 First2) {
+    return std::swap_ranges(std::begin(Cont), std::end(Cont), First2);
+}
+
+
+// FUNCTION TEMPLATE swap_ranges
+template <class Cont_T, class Cont_T2>
+ZCONSTEXPR20 auto swap_ranges(Cont_T& Cont1, Cont_T2& Cont2) {
+    return std::swap_ranges(std::begin(Cont1), std::end(Cont1), std::begin(Cont2));
 }
 
 
 // FUNCTION TEMPLATE transform
-template <class _Cont_T, class _OutIt, class _Fn>
-_ZCONSTEXPR20 auto transform(_Cont_T& _Cont, _OutIt _Dest, _Fn _Func) {
-    return transform(begin(_Cont), end(_Cont), _Dest, _Func);
+template <class Cont_T, class OutIt, class Fn>
+ZCONSTEXPR20 auto transform(Cont_T& Cont, OutIt Dest, Fn Func) {
+    return std::transform(std::begin(Cont), std::end(Cont), Dest, Func);
 }
 
 
 // FUNCTION TEMPLATE transform
-template <class _Cont_T, class _Dest_Cont_T, class _Fn>
-_ZCONSTEXPR20 auto transform(_Cont_T& _Cont, _Dest_Cont_T& _Dest, _Fn _Func) {
-    return transform(begin(_Cont), end(_Cont), begin(_Dest), _Func);
+template <class Cont_T, class DestCont_T, class Fn>
+ZCONSTEXPR20 auto transform(Cont_T& Cont, DestCont_T& Dest, Fn Func) {
+    return std::transform(std::begin(Cont), std::end(Cont), std::begin(Dest), Func);
 }
 
 
-template <class _Cont_T, class _InIt2, class _OutIt, class _Fn>
-_ZCONSTEXPR20 auto transform(_Cont_T& _Cont, const _InIt2 _First2, _OutIt _Dest, _Fn _Func) {
-    return transform(begin(_Cont), end(_Cont), _First2, _Dest, _Func);
+template <class Cont_T, class InIt2, class OutIt, class Fn>
+ZCONSTEXPR20 auto transform(Cont_T& Cont, const InIt2 First2, OutIt Dest, Fn Func) {
+    return std::transform(std::begin(Cont), std::end(Cont), First2, Dest, Func);
 }
 
 
-template <class _Cont_T, class _Cont_T2, class _OutIt, class _Fn>
-_ZCONSTEXPR20 auto transform(_Cont_T& _Cont1, _Cont_T2& _Cont2, _OutIt _Dest, _Fn _Func) {
-    return transform(begin(_Cont1), end(_Cont1), begin(_Cont2), _Dest, _Func);
+template <class Cont_T, class Cont_T2, class OutIt, class Fn>
+ZCONSTEXPR20 auto transform(Cont_T& Cont1, Cont_T2& Cont2, OutIt Dest, Fn Func) {
+    return std::transform(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), Dest, Func);
 }
 
 
-template <class _Cont_T, class _Cont_T2, class _Dest_Cont_T, class _Fn>
-_ZCONSTEXPR20 auto transform(_Cont_T& _Cont1, _Cont_T2& _Cont2, _Dest_Cont_T& _Dest, _Fn _Func) {
-    return transform(begin(_Cont1), end(_Cont1), begin(_Cont2), begin(_Dest), _Func);
+template <class Cont_T, class Cont_T2, class DestCont_T, class Fn>
+ZCONSTEXPR20 auto transform(Cont_T& Cont1, Cont_T2& Cont2, DestCont_T& Dest, Fn Func) {
+    return std::transform(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::begin(Dest), Func);
 }
 
 
 // FUNCTION TEMPLATE replace
-template <class _Cont_T, class _Ty>
-_ZCONSTEXPR20 void replace(_Cont_T& _Cont, const _Ty& _Oldval, const _Ty& _Newval) {
-    return replace(begin(_Cont), end(_Cont), _Oldval, _Newval);
+template <class Cont_T, class Ty>
+ZCONSTEXPR20 void replace(Cont_T& Cont, const Ty& Oldval, const Ty& Newval) {
+    return std::replace(std::begin(Cont), std::end(Cont), Oldval, Newval);
 }
 
 
 // FUNCTION TEMPLATE replace_if
-template <class _Cont_T, class _Pr, class _Ty>
-_ZCONSTEXPR20 void replace_if(_Cont_T& _Cont, _Pr _Pred, const _Ty& _Val) {
-    return replace_if(begin(_Cont), end(_Cont), _Pred, _Val);
+template <class Cont_T, class Pr, class Ty>
+ZCONSTEXPR20 void replace_if(Cont_T& Cont, Pr Pred, const Ty& Val) {
+    return std::replace_if(std::begin(Cont), std::end(Cont), Pred, Val);
 }
 
 
 // FUNCTION TEMPLATE replace_copy
-template <class _Cont_T, class _OutIt, class _Ty>
-_ZCONSTEXPR20 auto replace_copy(_Cont_T& _Cont, _OutIt _Dest, const _Ty& _Oldval, const _Ty& _Newval) {
-    return replace_copy(begin(_Cont), end(_Cont), _Dest, _Oldval, _Newval);
+template <class Cont_T, class OutIt, class Ty>
+ZCONSTEXPR20 auto replace_copy(Cont_T& Cont, OutIt Dest, const Ty& Oldval, const Ty& Newval) {
+    return std::replace_copy(std::begin(Cont), std::end(Cont), Dest, Oldval, Newval);
 }
 
 
 // FUNCTION TEMPLATE replace_copy
-template <class _Cont_T, class _Dest_Cont_T, class _Ty>
-_ZCONSTEXPR20 auto replace_copy(_Cont_T& _Cont, _Dest_Cont_T& _Dest, const _Ty& _Oldval, const _Ty& _Newval) {
-    return replace_copy(begin(_Cont), end(_Cont), begin(_Dest), _Oldval, _Newval);
+template <class Cont_T, class DestCont_T, class Ty>
+ZCONSTEXPR20 auto replace_copy(Cont_T& Cont, DestCont_T& Dest, const Ty& Oldval, const Ty& Newval) {
+    return std::replace_copy(std::begin(Cont), std::end(Cont), std::begin(Dest), Oldval, Newval);
 }
 
 
 // FUNCTION TEMPLATE replace_copy_if
-template <class _Cont_T, class _OutIt, class _Pr, class _Ty>
-_ZCONSTEXPR20 auto replace_copy_if(_Cont_T& _Cont, _OutIt _Dest, _Pr _Pred, const _Ty& _Val) {
-    return replace_copy_if(begin(_Cont), end(_Cont), _Dest, _Pred, _Val);
+template <class Cont_T, class OutIt, class Pr, class Ty>
+ZCONSTEXPR20 auto replace_copy_if(Cont_T& Cont, OutIt Dest, Pr Pred, const Ty& Val) {
+    return std::replace_copy_if(std::begin(Cont), std::end(Cont), Dest, Pred, Val);
 }
 
 
 // FUNCTION TEMPLATE replace_copy_if
-template <class _Cont_T, class _Dest_Cont_T, class _Pr, class _Ty>
-_ZCONSTEXPR20 auto replace_copy_if(_Cont_T& _Cont, _Dest_Cont_T& _Dest, _Pr _Pred, const _Ty& _Val) {
-    return replace_copy_if(begin(_Cont), end(_Cont), begin(_Dest), _Pred, _Val);
+template <class Cont_T, class DestCont_T, class Pr, class Ty>
+ZCONSTEXPR20 auto replace_copy_if(Cont_T& Cont, DestCont_T& Dest, Pr Pred, const Ty& Val) {
+    return std::replace_copy_if(std::begin(Cont), std::end(Cont), std::begin(Dest), Pred, Val);
 }
 
 
 // FUNCTION TEMPLATE generate
-template <class _Cont_T, class _Fn>
-_ZCONSTEXPR20 void generate(_Cont_T& _Cont, _Fn _Func) { // replace [_First, _Last) with _Func()
-    return generate(begin(_Cont), end(_Cont), _Func);
+template <class Cont_T, class Fn>
+ZCONSTEXPR20 void generate(Cont_T& Cont, Fn Func) { // replace [First, Last) with Func()
+    return std::generate(std::begin(Cont), std::end(Cont), Func);
 }
 
 
 // FUNCTION TEMPLATE remove_copy
-template <class _Cont_T, class _OutIt, class _Ty>
-_ZCONSTEXPR20 auto remove_copy(_Cont_T& _Cont, _OutIt _Dest, const _Ty& _Val) {
-    return remove_copy(begin(_Cont), end(_Cont), _Dest, _Val);
+template <class Cont_T, class OutIt, class Ty>
+ZCONSTEXPR20 auto remove_copy(Cont_T& Cont, OutIt Dest, const Ty& Val) {
+    return std::remove_copy(std::begin(Cont), std::end(Cont), Dest, Val);
 }
 
 
 // FUNCTION TEMPLATE remove_copy
-template <class _Cont_T, class _Dest_Cont_T, class _Ty>
-_ZCONSTEXPR20 auto remove_copy(_Cont_T& _Cont, _Dest_Cont_T& _Dest, const _Ty& _Val) {
-    return remove_copy(begin(_Cont), end(_Cont), begin(_Dest), _Val);
+template <class Cont_T, class DestCont_T, class Ty>
+ZCONSTEXPR20 auto remove_copy(Cont_T& Cont, DestCont_T& Dest, const Ty& Val) {
+    return std::remove_copy(std::begin(Cont), std::end(Cont), std::begin(Dest), Val);
 }
 
 
 // FUNCTION TEMPLATE remove_copy_if
-template <class _Cont_T, class _OutIt, class _Pr>
-_ZCONSTEXPR20 auto remove_copy_if(_Cont_T& _Cont, _OutIt _Dest, _Pr _Pred) {
-    return remove_copy_if(begin(_Cont), end(_Cont), _Dest, _Pred);
+template <class Cont_T, class OutIt, class Pr>
+ZCONSTEXPR20 auto remove_copy_if(Cont_T& Cont, OutIt Dest, Pr Pred) {
+    return std::remove_copy_if(std::begin(Cont), std::end(Cont), Dest, Pred);
 }
 
 
 // FUNCTION TEMPLATE remove_copy_if
-template <class _Cont_T, class _Dest_Cont_T, class _Pr>
-_ZCONSTEXPR20 auto remove_copy_if(_Cont_T& _Cont, _Dest_Cont_T& _Dest, _Pr _Pred) {
-    return remove_copy_if(begin(_Cont), end(_Cont), begin(_Dest), _Pred);
+template <class Cont_T, class DestCont_T, class Pr>
+ZCONSTEXPR20 auto remove_copy_if(Cont_T& Cont, DestCont_T& Dest, Pr Pred) {
+    return std::remove_copy_if(std::begin(Cont), std::end(Cont), std::begin(Dest), Pred);
 }
 
 
 // FUNCTION TEMPLATE unique
-template <class _Cont_T, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto unique(_Cont_T& _Cont, _Pr _Pred) {
-    return unique(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto unique(Cont_T& Cont, Pr Pred) {
+    return std::unique(std::begin(Cont), std::end(Cont), Pred);
 }
 
-template <class _Cont_T>
-_ZNODISCARD _ZCONSTEXPR20 auto unique(_Cont_T& _Cont) { // remove each matching previous
-    return unique(begin(_Cont), end(_Cont));
+template <class Cont_T>
+ZNODISCARD ZCONSTEXPR20 auto unique(Cont_T& Cont) { // remove each matching previous
+    return std::unique(std::begin(Cont), std::end(Cont));
 }
 
 // clang-format on
 
-template <class _Cont_T, class _OutIt, class _Pr>
-_ZCONSTEXPR20 auto unique_copy(_Cont_T& _Cont, _OutIt _Dest, _Pr _Pred) {
-    return unique_copy(begin(_Cont), end(_Cont), _Dest, _Pred);
+template <class Cont_T, class OutIt, class Pr>
+ZCONSTEXPR20 auto unique_copy(Cont_T& Cont, OutIt Dest, Pr Pred) {
+    return std::unique_copy(std::begin(Cont), std::end(Cont), Dest, Pred);
 }
 
 
-template <class _Cont_T, class _Dest_Cont_T, class _Pr>
-_ZCONSTEXPR20 auto unique_copy(_Cont_T& _Cont, _Dest_Cont_T& _Dest, _Pr _Pred) {
-    return unique_copy(begin(_Cont), end(_Cont), begin(_Dest), _Pred);
+template <class Cont_T, class DestCont_T, class Pr>
+ZCONSTEXPR20 auto unique_copy(Cont_T& Cont, DestCont_T& Dest, Pr Pred) {
+    return std::unique_copy(std::begin(Cont), std::end(Cont), std::begin(Dest), Pred);
 }
 
-template <class _Cont_T, class _OutIt>
-_ZCONSTEXPR20 auto unique_copy(_Cont_T& _Cont, _OutIt _Dest) { // copy compressing pairs that match
-    return unique_copy(begin(_Cont), end(_Cont), _Dest);
+template <class Cont_T, class OutIt>
+ZCONSTEXPR20 auto unique_copy(Cont_T& Cont, OutIt Dest) { // copy compressing pairs that match
+    return std::unique_copy(std::begin(Cont), std::end(Cont), Dest);
 }
 
-template <class _Cont_T, class _Dest_Cont_T>
-_ZCONSTEXPR20 auto unique_copy(_Cont_T& _Cont, _Dest_Cont_T& _Dest) { // copy compressing pairs that match
-    return unique_copy(begin(_Cont), end(_Cont), begin(_Dest));
-}
-
-// FUNCTION TEMPLATE reverse_copy
-template <class _Cont_T, class _OutIt>
-_ZCONSTEXPR20 auto reverse_copy(_Cont_T& _Cont, _OutIt _Dest) {
-    return reverse_copy(begin(_Cont), end(_Cont), _Dest);
+template <class Cont_T, class DestCont_T>
+ZCONSTEXPR20 auto unique_copy(Cont_T& Cont, DestCont_T& Dest) { // copy compressing pairs that match
+    return std::unique_copy(std::begin(Cont), std::end(Cont), std::begin(Dest));
 }
 
 // FUNCTION TEMPLATE reverse_copy
-template <class _Cont_T, class _Dest_Cont_T>
-_ZCONSTEXPR20 auto reverse_copy(_Cont_T& _Cont, _Dest_Cont_T& _Dest) {
-    return reverse_copy(begin(_Cont), end(_Cont), begin(_Dest));
+template <class Cont_T, class OutIt>
+ZCONSTEXPR20 auto reverse_copy(Cont_T& Cont, OutIt Dest) {
+    return std::reverse_copy(std::begin(Cont), std::end(Cont), Dest);
+}
+
+// FUNCTION TEMPLATE reverse_copy
+template <class Cont_T, class DestCont_T>
+ZCONSTEXPR20 auto reverse_copy(Cont_T& Cont, DestCont_T& Dest) {
+    return std::reverse_copy(std::begin(Cont), std::end(Cont), std::begin(Dest));
 }
 
 // FUNCTION TEMPLATE rotate_copy
-template <class _Cont_T, class _FwdIt, class _OutIt>
-_ZCONSTEXPR20 auto rotate_copy(_Cont_T& _Cont, _FwdIt _Mid, _OutIt _Dest) {
-    return reverse_copy(begin(_Cont), _Mid, end(_Cont), _Dest);
+template <class Cont_T, class FwdIt, class OutIt>
+ZCONSTEXPR20 auto rotate_copy(Cont_T& Cont, FwdIt Mid, OutIt Dest) {
+    return std::reverse_copy(std::begin(Cont), Mid, std::end(Cont), Dest);
 }
 
 // FUNCTION TEMPLATE rotate_copy
-template <class _Cont_T, class _OutIt>
-_ZCONSTEXPR20 auto rotate_copy(_Cont_T& _Cont, size_t _Mid, _OutIt _Dest) {
-    return reverse_copy(begin(_Cont), advance(begin(_Cont), _Mid), end(_Cont), _Dest);
+template <class Cont_T, class OutIt>
+ZCONSTEXPR20 auto rotate_copy(Cont_T& Cont, size_t Mid, OutIt Dest) {
+    return std::reverse_copy(std::begin(Cont), std::advance(std::begin(Cont), Mid), std::end(Cont), Dest);
 }
 
 // FUNCTION TEMPLATE rotate_copy
-template <class _Cont_T, class _FwdIt, class _Dest_Cont_T>
-_ZCONSTEXPR20 auto rotate_copy(_Cont_T& _Cont, _FwdIt _Mid, _Dest_Cont_T& _Dest) {
-    return reverse_copy(begin(_Cont), _Mid, end(_Cont), begin(_Dest));
+template <class Cont_T, class FwdIt, class DestCont_T>
+ZCONSTEXPR20 auto rotate_copy(Cont_T& Cont, FwdIt Mid, DestCont_T& Dest) {
+    return std::reverse_copy(std::begin(Cont), Mid, std::end(Cont), std::begin(Dest));
 }
 
 // FUNCTION TEMPLATE rotate_copy
-template <class _Cont_T, class _Dest_Cont_T>
-_ZCONSTEXPR20 auto rotate_copy(_Cont_T& _Cont, size_t _Mid, _Dest_Cont_T& _Dest) {
-    return reverse_copy(begin(_Cont), advance(begin(_Cont), _Mid), end(_Cont), begin(_Dest));
+template <class Cont_T, class DestCont_T>
+ZCONSTEXPR20 auto rotate_copy(Cont_T& Cont, size_t Mid, DestCont_T& Dest) {
+    return std::reverse_copy(std::begin(Cont), std::advance(std::begin(Cont), Mid), std::end(Cont), std::begin(Dest));
 }
 
 
-// FUNCTION TEMPLATE shuffle WITH URNG
-template <class _Cont_T, class _RngFn>
-void _Random_shuffle1(_Cont_T& _Cont, _RngFn& _RngFunc) {
-    return _Random_shuffle1(begin(_Cont), end(_Cont), _RngFunc);
-}
-
-template <class _Cont_T, class _Urng>
-void shuffle(_Cont_T& _Cont, _Urng&& _Func) { // shuffle [_First, _Last) using URNG _Func
-    return shuffle(begin(_Cont), end(_Cont), _Func);
+template <class Cont_T, class Urng>
+void shuffle(Cont_T& Cont, Urng&& Func) { // shuffle [First, Last) using URNG Func
+    return std::shuffle(std::begin(Cont), std::end(Cont), Func);
 }
 
 
 // FUNCTION TEMPLATE random_shuffle WITH RANDOM FN
-template <class _Cont_T, class _RngFn>
-void random_shuffle(_Cont_T& _Cont, _RngFn&& _RngFunc) {
-    return random_shuffle(begin(_Cont), end(_Cont), _RngFunc);
+template <class Cont_T, class RngFn>
+void random_shuffle(Cont_T& Cont, RngFn&& RngFunc) {
+    return std::random_shuffle(std::begin(Cont), std::end(Cont), RngFunc);
 }
 
-template <class _Cont_T>
-void random_shuffle(_Cont_T& _Cont) { // shuffle [_First, _Last) using rand()
-    return random_shuffle(begin(_Cont), end(_Cont));
+template <class Cont_T>
+void random_shuffle(Cont_T& Cont) { // shuffle [First, Last) using rand()
+    return std::random_shuffle(std::begin(Cont), std::end(Cont));
 }
 
 
 // FUNCTION TEMPLATE partition
-template <class _Cont_T, class _Pr>
-_ZCONSTEXPR20 auto partition(_Cont_T& _Cont, _Pr _Pred) {
-    return partition(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZCONSTEXPR20 auto partition(Cont_T& Cont, Pr Pred) {
+    return std::partition(std::begin(Cont), std::end(Cont), Pred);
 }
 
-template <class _Cont_T, class _Pr, class _BidIt>
-auto _Stable_partition_unchecked1(_Cont_T& _Cont, _Pr _Pred,
-    const _ZIter_diff_t<_BidIt> _Count, _ZIter_value_t<_BidIt>* const _Temp_ptr, const ptrdiff_t _Capacity) {
-    return _Stable_partition_unchecked1(begin(_Cont), end(_Cont), _Pred, _Count, _Temp_ptr, _Capacity);
+template <class Cont_T, class Pr>
+auto stable_partition(Cont_T& Cont, Pr Pred) {
+    return std::stable_partition(std::begin(Cont), std::end(Cont), Pred);
 }
 
-template <class _Cont_T, class _Pr>
-auto _Stable_partition_unchecked(_Cont_T& _Cont, _Pr _Pred) {
-    return _Stable_partition_unchecked(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZCONSTEXPR20 void push_heap(Cont_T& Cont, Pr Pred) {
+    return std::push_heap(std::begin(Cont), std::end(Cont), Pred);
 }
 
-template <class _Cont_T, class _Pr>
-auto stable_partition(_Cont_T& _Cont, _Pr _Pred) {
-    return stable_partition(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T>
+ZCONSTEXPR20 void push_heap(Cont_T& Cont) {
+    return std::push_heap(std::begin(Cont), std::end(Cont));
 }
 
-template <class _Cont_T, class _Pr>
-_ZCONSTEXPR20 void push_heap(_Cont_T& _Cont, _Pr _Pred) {
-    return push_heap(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZCONSTEXPR20 void pop_heap(Cont_T& Cont, Pr Pred) {
+    return std::pop_heap(std::begin(Cont), std::end(Cont), Pred);
 }
 
-template <class _Cont_T>
-_ZCONSTEXPR20 void push_heap(_Cont_T& _Cont) {
-    return push_heap(begin(_Cont), end(_Cont));
+template <class Cont_T>
+ZCONSTEXPR20 void pop_heap(Cont_T& Cont) {
+    return std::pop_heap(std::begin(Cont), std::end(Cont));
 }
 
-template <class _Cont_T, class _RanIt, class _Ty, class _Pr>
-_ZCONSTEXPR20 void _Pop_heap_hole_unchecked(_Cont_T& _Cont, _RanIt _Dest, _Ty&& _Val, _Pr _Pred) {
-    return _Pop_heap_hole_unchecked(begin(_Cont), end(_Cont), _Dest, _Val, _Pred);
+template <class Cont_T, class Pr>
+ZCONSTEXPR20 void make_heap(Cont_T& Cont, Pr Pred) { // make [First, Last) into a heap
+    return std::make_heap(std::begin(Cont), std::end(Cont), Pred);
 }
 
-template <class _Cont_T, class _Dest_Cont_T, class _Ty, class _Pr>
-_ZCONSTEXPR20 void _Pop_heap_hole_unchecked(_Cont_T& _Cont, _Dest_Cont_T& _Dest, _Ty&& _Val, _Pr _Pred) {
-    return _Pop_heap_hole_unchecked(begin(_Cont), end(_Cont), begin(_Dest), _Val, _Pred);
-}
-
-template <class _Cont_T, class _Pr>
-_ZCONSTEXPR20 void _Pop_heap_unchecked(_Cont_T& _Cont, _Pr _Pred) {
-    return _Pop_heap_unchecked(begin(_Cont), end(_Cont), _Pred);
-}
-
-template <class _Cont_T, class _Pr>
-_ZCONSTEXPR20 void pop_heap(_Cont_T& _Cont, _Pr _Pred) {
-    return pop_heap(begin(_Cont), end(_Cont), _Pred);
-}
-
-template <class _Cont_T>
-_ZCONSTEXPR20 void pop_heap(_Cont_T& _Cont) {
-    return pop_heap(begin(_Cont), end(_Cont));
+template <class Cont_T>
+ZCONSTEXPR20 void make_heap(Cont_T& Cont) { // make [First, Last) into a heap
+    return std::make_heap(std::begin(Cont), std::end(Cont));
 }
 
 
-// FUNCTION TEMPLATE make_heap
-template <class _Cont_T, class _Pr>
-_ZCONSTEXPR20 void _Make_heap_unchecked(_Cont_T& _Cont, _Pr _Pred) {
-    return _Make_heap_unchecked(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto is_heap_until(Cont_T& Cont, Pr Pred) {
+    return std::is_heap_until(std::begin(Cont), std::end(Cont), Pred);
 }
 
-template <class _Cont_T, class _Pr>
-_ZCONSTEXPR20 void make_heap(_Cont_T& _Cont, _Pr _Pred) { // make [_First, _Last) into a heap
-    return make_heap(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZNODISCARD ZCONSTEXPR20 bool is_heap(Cont_T& Cont, Pr Pred) {
+    return std::is_heap(std::begin(Cont), std::end(Cont), Pred);
 }
 
-template <class _Cont_T>
-_ZCONSTEXPR20 void make_heap(_Cont_T& _Cont) { // make [_First, _Last) into a heap
-    return make_heap(begin(_Cont), end(_Cont));
+template <class Cont_T>
+ZNODISCARD ZCONSTEXPR20 auto is_heap_until(Cont_T& Cont) {
+    return std::is_heap_until(std::begin(Cont), std::end(Cont));
 }
 
-
-// FUNCTION TEMPLATES is_heap AND is_heap_until
-template <class _Cont_T, class _Pr>
-_ZCONSTEXPR20 auto _Is_heap_until_unchecked(_Cont_T& _Cont, _Pr _Pred) {
-    return _Is_heap_until_unchecked(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T>
+ZNODISCARD ZCONSTEXPR20 bool is_heap(Cont_T& Cont) { // test if range is a heap ordered by operator<
+    return std::is_heap(std::begin(Cont), std::end(Cont));
 }
 
-template <class _Cont_T, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto is_heap_until(_Cont_T& _Cont, _Pr _Pred) {
-    return is_heap_until(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZCONSTEXPR20 void sort_heap(Cont_T& Cont, Pr Pred) { // order heap by repeatedly popping
+    return std::sort_heap(std::begin(Cont), std::end(Cont), Pred);
 }
 
-template <class _Cont_T, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 bool is_heap(_Cont_T& _Cont, _Pr _Pred) {
-    return is_heap(begin(_Cont), end(_Cont), _Pred);
-}
-
-template <class _Cont_T>
-_ZNODISCARD _ZCONSTEXPR20 auto is_heap_until(_Cont_T& _Cont) {
-    return is_heap_until(begin(_Cont), end(_Cont));
-}
-
-template <class _Cont_T>
-_ZNODISCARD _ZCONSTEXPR20 bool is_heap(_Cont_T& _Cont) { // test if range is a heap ordered by operator<
-    return is_heap(begin(_Cont), end(_Cont));
-}
-
-
-// FUNCTION TEMPLATE sort_heap
-template <class _Cont_T, class _Pr>
-_ZCONSTEXPR20 void _Sort_heap_unchecked(_Cont_T& _Cont, _Pr _Pred) {
-    return _Sort_heap_unchecked(begin(_Cont), end(_Cont), _Pred);
-}
-
-template <class _Cont_T, class _Pr>
-_ZCONSTEXPR20 void sort_heap(_Cont_T& _Cont, _Pr _Pred) { // order heap by repeatedly popping
-    return sort_heap(begin(_Cont), end(_Cont), _Pred);
-}
-
-template <class _Cont_T>
-_ZCONSTEXPR20 void sort_heap(_Cont_T& _Cont) { // order heap by repeatedly popping
-    return sort_heap(begin(_Cont), end(_Cont));
+template <class Cont_T>
+ZCONSTEXPR20 void sort_heap(Cont_T& Cont) { // order heap by repeatedly popping
+    return std::sort_heap(std::begin(Cont), std::end(Cont));
 }
 
 
 // FUNCTION TEMPLATE upper_bound
-template <class _Ty, class _Pr, class _Cont_T>
-_ZNODISCARD _ZCONSTEXPR20 auto upper_bound(_Cont_T& _Cont, const _Ty& _Val, _Pr _Pred) {
-    return upper_bound(begin(_Cont), end(_Cont), _Val, _Pred);
+template <class Ty, class Pr, class Cont_T>
+ZNODISCARD ZCONSTEXPR20 auto upper_bound(Cont_T& Cont, const Ty& Val, Pr Pred) {
+    return std::upper_bound(std::begin(Cont), std::end(Cont), Val, Pred);
 }
 
-template <class _Cont_T, class _Ty>
-_ZNODISCARD _ZCONSTEXPR20 auto upper_bound(_Cont_T& _Cont, const _Ty& _Val) {
-    return upper_bound(begin(_Cont), end(_Cont), _Val);
+template <class Cont_T, class Ty>
+ZNODISCARD ZCONSTEXPR20 auto upper_bound(Cont_T& Cont, const Ty& Val) {
+    return std::upper_bound(std::begin(Cont), std::end(Cont), Val);
 }
 
 
 // FUNCTION TEMPLATE equal_range
-template <class _Cont_T, class _Ty, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto equal_range(_Cont_T& _Cont, const _Ty& _Val, _Pr _Pred) {
-    return equal_range(begin(_Cont), end(_Cont), _Val, _Pred);
+template <class Cont_T, class Ty, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto equal_range(Cont_T& Cont, const Ty& Val, Pr Pred) {
+    return std::equal_range(std::begin(Cont), std::end(Cont), Val, Pred);
 }
 
-template <class _Cont_T, class _Ty>
-_ZNODISCARD _ZCONSTEXPR20 auto equal_range(_Cont_T& _Cont, const _Ty& _Val) {
-    return equal_range(begin(_Cont), end(_Cont), _Val);
+template <class Cont_T, class Ty>
+ZNODISCARD ZCONSTEXPR20 auto equal_range(Cont_T& Cont, const Ty& Val) {
+    return std::equal_range(std::begin(Cont), std::end(Cont), Val);
 }
 
 
 // FUNCTION TEMPLATE binary_search
-template <class _Cont_T, class _Ty, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 bool binary_search(_Cont_T& _Cont, const _Ty& _Val, _Pr _Pred) {
-    return binary_search(begin(_Cont), end(_Cont), _Val, _Pred);
+template <class Cont_T, class Ty, class Pr>
+ZNODISCARD ZCONSTEXPR20 bool binary_search(Cont_T& Cont, const Ty& Val, Pr Pred) {
+    return std::binary_search(std::begin(Cont), std::end(Cont), Val, Pred);
 }
 
-template <class _Cont_T, class _Ty>
-_ZNODISCARD _ZCONSTEXPR20 bool binary_search(_Cont_T& _Cont, const _Ty& _Val) {
-    return binary_search(begin(_Cont), end(_Cont), _Val);
+template <class Cont_T, class Ty>
+ZNODISCARD ZCONSTEXPR20 bool binary_search(Cont_T& Cont, const Ty& Val) {
+    return std::binary_search(std::begin(Cont), std::end(Cont), Val);
 }
 
-template <class _Cont_T, class _InIt2, class _OutIt, class _Pr>
-_ZCONSTEXPR20 auto merge(_Cont_T& _Cont, _InIt2 _First2, _InIt2 _Last2, _OutIt _Dest, _Pr _Pred) {
-    return merge(begin(_Cont), end(_Cont), _First2, _Last2, _Dest, _Pred);
+template <class Cont_T, class InIt2, class OutIt, class Pr>
+ZCONSTEXPR20 auto merge(Cont_T& Cont, InIt2 First2, InIt2 Last2, OutIt Dest, Pr Pred) {
+    return std::merge(std::begin(Cont), std::end(Cont), First2, Last2, Dest, Pred);
 }
 
-template <class _Cont_T, class _Cont_T2, class _OutIt, class _Pr>
-_ZCONSTEXPR20 auto merge(_Cont_T& _Cont1, _Cont_T2& _Cont2, _OutIt _Dest, _Pr _Pred) {
-    return merge(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), _Dest, _Pred);
+template <class Cont_T, class Cont_T2, class OutIt, class Pr>
+ZCONSTEXPR20 auto merge(Cont_T& Cont1, Cont_T2& Cont2, OutIt Dest, Pr Pred) {
+    return std::merge(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), Dest, Pred);
 }
 
-template <class _Cont_T, class _Cont_T2, class _Dest_Cont_T, class _Pr>
-_ZCONSTEXPR20 auto merge(_Cont_T& _Cont1, _Cont_T2& _Cont2, _Dest_Cont_T& _Dest, _Pr _Pred) {
-    return merge(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), begin(_Dest), _Pred);
+template <class Cont_T, class Cont_T2, class DestCont_T, class Pr>
+ZCONSTEXPR20 auto merge(Cont_T& Cont1, Cont_T2& Cont2, DestCont_T& Dest, Pr Pred) {
+    return std::merge(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), std::begin(Dest), Pred);
 }
 
-template <class _Cont_T, class _InIt2, class _OutIt>
-_ZCONSTEXPR20 auto merge(_Cont_T& _Cont, _InIt2 _First2, _InIt2 _Last2, _OutIt _Dest) {
-    return merge(begin(_Cont), end(_Cont), _First2, _Last2, _Dest);
+template <class Cont_T, class InIt2, class OutIt>
+ZCONSTEXPR20 auto merge(Cont_T& Cont, InIt2 First2, InIt2 Last2, OutIt Dest) {
+    return std::merge(std::begin(Cont), std::end(Cont), First2, Last2, Dest);
 }
 
-template <class _Cont_T, class _Cont_T2, class _OutIt>
-_ZCONSTEXPR20 auto merge(_Cont_T& _Cont1, _Cont_T2& _Cont2, _OutIt _Dest) {
-    return merge(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), _Dest);
+template <class Cont_T, class Cont_T2, class OutIt>
+ZCONSTEXPR20 auto merge(Cont_T& Cont1, Cont_T2& Cont2, OutIt Dest) {
+    return std::merge(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), Dest);
 }
 
-template <class _Cont_T, class _Cont_T2, class _Dest_Cont_T>
-_ZCONSTEXPR20 auto merge(_Cont_T& _Cont1, _Cont_T2& _Cont2, _Dest_Cont_T& _Dest) {
-    return merge(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), begin(_Dest));
+template <class Cont_T, class Cont_T2, class DestCont_T>
+ZCONSTEXPR20 auto merge(Cont_T& Cont1, Cont_T2& Cont2, DestCont_T& Dest) {
+    return std::merge(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), std::begin(Dest));
 }
 
-template <class _Cont_T, class _BidIt, class _Pr>
-void inplace_merge(_Cont_T& _Cont, _BidIt _Mid, _Pr _Pred) {
-    return inplace_merge(begin(_Cont), _Mid, end(_Cont), _Pred);
+template <class Cont_T, class BidIt, class Pr>
+void inplace_merge(Cont_T& Cont, BidIt Mid, Pr Pred) {
+    return std::inplace_merge(std::begin(Cont), Mid, std::end(Cont), Pred);
 }
 
-template <class _Cont_T, class _Pr>
-void inplace_merge(_Cont_T& _Cont, size_t _Mid, _Pr _Pred) {
-    return inplace_merge(begin(_Cont), advance(begin(_Cont), _Mid), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+void inplace_merge(Cont_T& Cont, size_t Mid, Pr Pred) {
+    return std::inplace_merge(std::begin(Cont), std::advance(std::begin(Cont), Mid), std::end(Cont), Pred);
 }
 
-template <class _Cont_T, class _BidIt>
-void inplace_merge(_Cont_T& _Cont, _BidIt _Mid) {
-    return inplace_merge(begin(_Cont), _Mid, end(_Cont));
+template <class Cont_T, class BidIt>
+void inplace_merge(Cont_T& Cont, BidIt Mid) {
+    return std::inplace_merge(std::begin(Cont), Mid, std::end(Cont));
 }
 
-template <class _Cont_T>
-void inplace_merge(_Cont_T& _Cont, size_t _Mid) {
-    return inplace_merge(begin(_Cont), advance(begin(_Cont), _Mid), end(_Cont));
-}
-
-
-// FUNCTION TEMPLATE sort
-template <class _Cont_T, class _Pr>
-_ZCONSTEXPR20 auto _Insertion_sort_unchecked(_Cont_T& _Cont, _Pr _Pred) {
-    return _Insertion_sort_unchecked(begin(_Cont), end(_Cont), _Pred);
-}
-
-template <class _Cont_T, class _Pr>
-_ZCONSTEXPR20 auto _Partition_by_median_guess_unchecked(_Cont_T& _Cont, _Pr _Pred) {
-    return _Partition_by_median_guess_unchecked(begin(_Cont), end(_Cont), _Pred);
-}
-
-template <class _Cont_T, class _RanIt, class _Pr>
-_ZCONSTEXPR20 void _Sort_unchecked(_Cont_T& _Cont, _ZIter_diff_t<_RanIt> _Ideal, _Pr _Pred) {
-    return _Sort_unchecked(begin(_Cont), end(_Cont), _Ideal, _Pred);
-}
-
-template <class _Cont_T, class _Pr>
-_ZCONSTEXPR20 void sort(_Cont_T& _Cont, _Pr _Pred) { // order [_First, _Last)
-    return sort(begin(_Cont), end(_Cont), _Pred);
-}
-
-template <class _Cont_T>
-_ZCONSTEXPR20 void sort(_Cont_T& _Cont) { // order [_First, _Last)
-    return sort(begin(_Cont), end(_Cont));
-}
-
-template <class _Cont_T, class _BidIt, class _Ty, class _Pr>
-void _Uninitialized_chunked_merge_unchecked2(_Cont_T& _Cont, _Ty* _Dest, _ZIter_diff_t<_BidIt> _Count, _Pr _Pred) {
-    return _Uninitialized_chunked_merge_unchecked2(begin(_Cont), end(_Cont), _Dest, _Count, _Pred);
-}
-
-template <class _Cont_T, class _BidIt, class _OutIt, class _Pr>
-void _Chunked_merge_unchecked(_Cont_T& _Cont, _OutIt _Dest, const _ZIter_diff_t<_BidIt> _Chunk,
-    _ZIter_diff_t<_BidIt> _Count, _Pr _Pred) {
-    return _Chunked_merge_unchecked(begin(_Cont), end(_Cont), _Dest, _Chunk, _Count, _Pred);
-}
-
-template <class _Cont_T, class _BidIt, class _Pr>
-void _Insertion_sort_isort_max_chunks(_Cont_T& _Cont, _ZIter_diff_t<_BidIt> _Count, _Pr _Pred) {
-    return _Insertion_sort_isort_max_chunks(begin(_Cont), end(_Cont), _Count, _Pred);
-}
-
-template <class _Cont_T, class _BidIt, class _Pr>
-void _Buffered_merge_sort_unchecked(_Cont_T& _Cont, const _ZIter_diff_t<_BidIt> _Count,
-    _ZIter_value_t<_BidIt>* const _Temp_ptr, _Pr _Pred) {
-    return _Buffered_merge_sort_unchecked(begin(_Cont), end(_Cont), _Count, _Temp_ptr, _Pred);
-}
-
-template <class _Cont_T, class _BidIt, class _Pr>
-void _Stable_sort_unchecked(_Cont_T& _Cont, const _ZIter_diff_t<_BidIt> _Count,
-    _ZIter_value_t<_BidIt>* const _Temp_ptr, const ptrdiff_t _Capacity, _Pr _Pred) {
-    return _Stable_sort_unchecked(begin(_Cont), end(_Cont), _Count, _Temp_ptr, _Capacity, _Pred);
-}
-
-template <class _Cont_T, class _Pr>
-void stable_sort(_Cont_T& _Cont, _Pr _Pred) {
-    return stable_sort(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T>
+void inplace_merge(Cont_T& Cont, size_t Mid) {
+    return std::inplace_merge(std::begin(Cont), std::advance(std::begin(Cont), Mid), std::end(Cont));
 }
 
 
-template <class _Cont_T>
-void stable_sort(_Cont_T& _Cont) { // sort preserving order of equivalents
-    return stable_sort(begin(_Cont), end(_Cont));
+template <class Cont_T, class Pr>
+ZCONSTEXPR20 void sort(Cont_T& Cont, Pr Pred) { // order [First, Last)
+    return std::sort(std::begin(Cont), std::end(Cont), Pred);
+}
+
+template <class Cont_T>
+ZCONSTEXPR20 void sort(Cont_T& Cont) { // order [First, Last)
+    return std::sort(std::begin(Cont), std::end(Cont));
+}
+
+template <class Cont_T, class Pr>
+void stable_sort(Cont_T& Cont, Pr Pred) {
+    return std::stable_sort(std::begin(Cont), std::end(Cont), Pred);
+}
+
+
+template <class Cont_T>
+void stable_sort(Cont_T& Cont) { // sort preserving order of equivalents
+    return std::stable_sort(std::begin(Cont), std::end(Cont));
 }
 
 
 // FUNCTION TEMPLATE partial_sort_copy
-template <class _Cont_T, class _RanIt, class _Pr>
-_ZCONSTEXPR20 auto partial_sort_copy(_Cont_T& _Cont, _RanIt _First2, _RanIt _Last2, _Pr _Pred) {
-    return partial_sort_copy(begin(_Cont), end(_Cont), _First2, _Last2, _Pred);
+template <class Cont_T, class RanIt, class Pr>
+ZCONSTEXPR20 auto partial_sort_copy(Cont_T& Cont, RanIt First2, RanIt Last2, Pr Pred) {
+    return std::partial_sort_copy(std::begin(Cont), std::end(Cont), First2, Last2, Pred);
 }
 
 
 // FUNCTION TEMPLATE partial_sort_copy
-template <class _Cont_T, class _Cont_T2, class _Pr>
-_ZCONSTEXPR20 auto partial_sort_copy(_Cont_T& _Cont1, _Cont_T2& _Cont2, _Pr _Pred) {
-    return partial_sort_copy(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), _Pred);
+template <class Cont_T, class Cont_T2, class Pr>
+ZCONSTEXPR20 auto partial_sort_copy(Cont_T& Cont1, Cont_T2& Cont2, Pr Pred) {
+    return std::partial_sort_copy(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), Pred);
 }
 
-template <class _Cont_T, class _RanIt>
-_ZCONSTEXPR20 auto partial_sort_copy(_Cont_T& _Cont, _RanIt _First2, _RanIt _Last2) {
-    return partial_sort_copy(begin(_Cont), end(_Cont), _First2, _Last2);
+template <class Cont_T, class RanIt>
+ZCONSTEXPR20 auto partial_sort_copy(Cont_T& Cont, RanIt First2, RanIt Last2) {
+    return std::partial_sort_copy(std::begin(Cont), std::end(Cont), First2, Last2);
 }
 
-template <class _Cont_T, class _Cont_T2>
-_ZCONSTEXPR20 auto partial_sort_copy(_Cont_T& _Cont1, _Cont_T2& _Cont2) {
-    return partial_sort_copy(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2));
-}
-
-
-// FUNCTION TEMPLATE includes
-template <class _Cont_T, class _InIt2, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 bool includes(_Cont_T& _Cont, _InIt2 _First2, _InIt2 _Last2, _Pr _Pred) {
-    return includes(begin(_Cont), end(_Cont), _First2, _Last2, _Pred);
+template <class Cont_T, class Cont_T2>
+ZCONSTEXPR20 auto partial_sort_copy(Cont_T& Cont1, Cont_T2& Cont2) {
+    return std::partial_sort_copy(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2));
 }
 
 
 // FUNCTION TEMPLATE includes
-template <class _Cont_T, class _Cont_T2, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 bool includes(_Cont_T& _Cont1, _Cont_T2& _Cont2, _Pr _Pred) {
-    return includes(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), _Pred);
-}
-
-template <class _Cont_T, class _InIt2>
-_ZNODISCARD _ZCONSTEXPR20 bool includes(_Cont_T& _Cont, _InIt2 _First2, _InIt2 _Last2) {
-    return includes(begin(_Cont), end(_Cont), _First2, _Last2);
-}
-
-template <class _Cont_T, class _Cont_T2>
-_ZNODISCARD _ZCONSTEXPR20 bool includes(_Cont_T& _Cont1, _Cont_T2& _Cont2) {
-    return includes(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2));
+template <class Cont_T, class InIt2, class Pr>
+ZNODISCARD ZCONSTEXPR20 bool includes(Cont_T& Cont, InIt2 First2, InIt2 Last2, Pr Pred) {
+    return std::includes(std::begin(Cont), std::end(Cont), First2, Last2, Pred);
 }
 
 
-// FUNCTION TEMPLATE set_union
-template <class _Cont_T, class _InIt2, class _OutIt, class _Pr>
-_ZCONSTEXPR20 auto set_union(_Cont_T& _Cont, _InIt2 _First2, _InIt2 _Last2, _OutIt _Dest, _Pr _Pred) {
-    return set_union(begin(_Cont), end(_Cont), _First2, _Last2, _Dest, _Pred);
+// FUNCTION TEMPLATE includes
+template <class Cont_T, class Cont_T2, class Pr>
+ZNODISCARD ZCONSTEXPR20 bool includes(Cont_T& Cont1, Cont_T2& Cont2, Pr Pred) {
+    return std::includes(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), Pred);
 }
 
+template <class Cont_T, class InIt2>
+ZNODISCARD ZCONSTEXPR20 bool includes(Cont_T& Cont, InIt2 First2, InIt2 Last2) {
+    return std::includes(std::begin(Cont), std::end(Cont), First2, Last2);
+}
 
-// FUNCTION TEMPLATE set_union
-template <class _Cont_T, class _Cont_T2, class _OutIt, class _Pr>
-_ZCONSTEXPR20 auto set_union(_Cont_T& _Cont1, _Cont_T2& _Cont2, _OutIt _Dest, _Pr _Pred) {
-    return set_union(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), _Dest, _Pred);
+template <class Cont_T, class Cont_T2>
+ZNODISCARD ZCONSTEXPR20 bool includes(Cont_T& Cont1, Cont_T2& Cont2) {
+    return std::includes(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2));
 }
 
 
 // FUNCTION TEMPLATE set_union
-template <class _Cont_T, class _Cont_T2, class _Dest_Cont_T, class _Pr>
-_ZCONSTEXPR20 auto set_union(_Cont_T& _Cont1, _Cont_T2& _Cont2, _Dest_Cont_T& _Dest, _Pr _Pred) {
-    return set_union(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), begin(_Dest), _Pred);
+template <class Cont_T, class InIt2, class OutIt, class Pr>
+ZCONSTEXPR20 auto set_union(Cont_T& Cont, InIt2 First2, InIt2 Last2, OutIt Dest, Pr Pred) {
+    return std::set_union(std::begin(Cont), std::end(Cont), First2, Last2, Dest, Pred);
 }
 
-template <class _Cont_T, class _InIt2, class _OutIt>
-_ZCONSTEXPR20 auto set_union(_Cont_T& _Cont, _InIt2 _First2, _InIt2 _Last2, _OutIt _Dest) {
-    return set_union(begin(_Cont), end(_Cont), _First2, _Last2, _Dest);
+
+// FUNCTION TEMPLATE set_union
+template <class Cont_T, class Cont_T2, class OutIt, class Pr>
+ZCONSTEXPR20 auto set_union(Cont_T& Cont1, Cont_T2& Cont2, OutIt Dest, Pr Pred) {
+    return std::set_union(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), Dest, Pred);
 }
 
-template <class _Cont_T, class _Cont_T2, class _OutIt>
-_ZCONSTEXPR20 auto set_union(_Cont_T& _Cont1, _Cont_T2& _Cont2, _OutIt _Dest) {
-    return set_union(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), _Dest);
+
+// FUNCTION TEMPLATE set_union
+template <class Cont_T, class Cont_T2, class DestCont_T, class Pr>
+ZCONSTEXPR20 auto set_union(Cont_T& Cont1, Cont_T2& Cont2, DestCont_T& Dest, Pr Pred) {
+    return std::set_union(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), std::begin(Dest), Pred);
 }
 
-template <class _Cont_T, class _Cont_T2, class _Dest_Cont_T>
-_ZCONSTEXPR20 auto set_union(_Cont_T& _Cont1, _Cont_T2& _Cont2, _Dest_Cont_T& _Dest) {
-    return set_union(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), begin(_Dest));
+template <class Cont_T, class InIt2, class OutIt>
+ZCONSTEXPR20 auto set_union(Cont_T& Cont, InIt2 First2, InIt2 Last2, OutIt Dest) {
+    return std::set_union(std::begin(Cont), std::end(Cont), First2, Last2, Dest);
+}
+
+template <class Cont_T, class Cont_T2, class OutIt>
+ZCONSTEXPR20 auto set_union(Cont_T& Cont1, Cont_T2& Cont2, OutIt Dest) {
+    return std::set_union(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), Dest);
+}
+
+template <class Cont_T, class Cont_T2, class DestCont_T>
+ZCONSTEXPR20 auto set_union(Cont_T& Cont1, Cont_T2& Cont2, DestCont_T& Dest) {
+    return std::set_union(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), std::begin(Dest));
 }
 
 
 // FUNCTION TEMPLATE set_intersection
-template <class _Cont_T, class _InIt2, class _OutIt, class _Pr>
-_ZCONSTEXPR20 auto set_intersection(_Cont_T& _Cont, _InIt2 _First2, _InIt2 _Last2, _OutIt _Dest, _Pr _Pred) {
-    return set_intersection(begin(_Cont), end(_Cont), _First2, _Last2, _Dest, _Pred);
+template <class Cont_T, class InIt2, class OutIt, class Pr>
+ZCONSTEXPR20 auto set_intersection(Cont_T& Cont, InIt2 First2, InIt2 Last2, OutIt Dest, Pr Pred) {
+    return std::set_intersection(std::begin(Cont), std::end(Cont), First2, Last2, Dest, Pred);
 }
 
 
 // FUNCTION TEMPLATE set_intersection
-template <class _Cont_T, class _Cont_T2, class _OutIt, class _Pr>
-_ZCONSTEXPR20 auto set_intersection(_Cont_T& _Cont1, _Cont_T2& _Cont2, _OutIt _Dest, _Pr _Pred) {
-    return set_intersection(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), _Dest, _Pred);
+template <class Cont_T, class Cont_T2, class OutIt, class Pr>
+ZCONSTEXPR20 auto set_intersection(Cont_T& Cont1, Cont_T2& Cont2, OutIt Dest, Pr Pred) {
+    return std::set_intersection(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), Dest, Pred);
 }
 
 
 // FUNCTION TEMPLATE set_intersection
-template <class _Cont_T, class _Cont_T2, class _Dest_Cont_T, class _Pr>
-_ZCONSTEXPR20 auto set_intersection(_Cont_T& _Cont1, _Cont_T2& _Cont2, _Dest_Cont_T& _Dest, _Pr _Pred) {
-    return set_intersection(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), begin(_Dest), _Pred);
+template <class Cont_T, class Cont_T2, class DestCont_T, class Pr>
+ZCONSTEXPR20 auto set_intersection(Cont_T& Cont1, Cont_T2& Cont2, DestCont_T& Dest, Pr Pred) {
+    return std::set_intersection(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), std::begin(Dest), Pred);
 }
 
-template <class _Cont_T, class _InIt2, class _OutIt>
-_ZCONSTEXPR20 auto set_intersection(_Cont_T& _Cont, _InIt2 _First2, _InIt2 _Last2, _OutIt _Dest) {
-    return set_intersection(begin(_Cont), end(_Cont), _First2, _Last2, _Dest);
+template <class Cont_T, class InIt2, class OutIt>
+ZCONSTEXPR20 auto set_intersection(Cont_T& Cont, InIt2 First2, InIt2 Last2, OutIt Dest) {
+    return std::set_intersection(std::begin(Cont), std::end(Cont), First2, Last2, Dest);
 }
 
-template <class _Cont_T, class _Cont_T2, class _OutIt>
-_ZCONSTEXPR20 auto set_intersection(_Cont_T& _Cont1, _Cont_T2& _Cont2, _OutIt _Dest) {
-    return set_intersection(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), _Dest);
+template <class Cont_T, class Cont_T2, class OutIt>
+ZCONSTEXPR20 auto set_intersection(Cont_T& Cont1, Cont_T2& Cont2, OutIt Dest) {
+    return std::set_intersection(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), Dest);
 }
 
-template <class _Cont_T, class _Cont_T2, class _Dest_Cont_T>
-_ZCONSTEXPR20 auto set_intersection(_Cont_T& _Cont1, _Cont_T2& _Cont2, _Dest_Cont_T& _Dest) {
-    return set_intersection(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), begin(_Dest));
-}
-
-
-// FUNCTION TEMPLATE set_difference
-template <class _Cont_T, class _InIt2, class _OutIt, class _Pr>
-_ZCONSTEXPR20 auto set_difference(_Cont_T& _Cont, _InIt2 _First2, _InIt2 _Last2, _OutIt _Dest, _Pr _Pred) {
-    return set_difference(begin(_Cont), end(_Cont), _First2, _Last2, _Dest, _Pred);
+template <class Cont_T, class Cont_T2, class DestCont_T>
+ZCONSTEXPR20 auto set_intersection(Cont_T& Cont1, Cont_T2& Cont2, DestCont_T& Dest) {
+    return std::set_intersection(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), std::begin(Dest));
 }
 
 
 // FUNCTION TEMPLATE set_difference
-template <class _Cont_T, class _Cont_T2, class _OutIt, class _Pr>
-_ZCONSTEXPR20 auto set_difference(_Cont_T& _Cont1, _Cont_T2& _Cont2, _OutIt _Dest, _Pr _Pred) {
-    return set_difference(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), _Dest, _Pred);
+template <class Cont_T, class InIt2, class OutIt, class Pr>
+ZCONSTEXPR20 auto set_difference(Cont_T& Cont, InIt2 First2, InIt2 Last2, OutIt Dest, Pr Pred) {
+    return std::set_difference(std::begin(Cont), std::end(Cont), First2, Last2, Dest, Pred);
 }
 
 
 // FUNCTION TEMPLATE set_difference
-template <class _Cont_T, class _Cont_T2, class _Dest_Cont_T, class _Pr>
-_ZCONSTEXPR20 auto set_difference(_Cont_T& _Cont1, _Cont_T2& _Cont2, _Dest_Cont_T& _Dest, _Pr _Pred) {
-    return set_difference(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), begin(_Dest), _Pred);
-}
-
-template <class _Cont_T, class _InIt2, class _OutIt>
-_ZCONSTEXPR20 auto set_difference(_Cont_T& _Cont, _InIt2 _First2, _InIt2 _Last2, _OutIt _Dest) {
-    return set_difference(begin(_Cont), end(_Cont), _First2, _Last2, _Dest);
-}
-
-template <class _Cont_T, class _Cont_T2, class _OutIt>
-_ZCONSTEXPR20 auto set_difference(_Cont_T& _Cont1, _Cont_T2& _Cont2, _OutIt _Dest) {
-    return set_difference(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), _Dest);
-}
-
-template <class _Cont_T, class _Cont_T2, class _Dest_Cont_T>
-_ZCONSTEXPR20 auto set_difference(_Cont_T& _Cont1, _Cont_T2& _Cont2, _Dest_Cont_T& _Dest) {
-    return set_difference(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), begin(_Dest));
+template <class Cont_T, class Cont_T2, class OutIt, class Pr>
+ZCONSTEXPR20 auto set_difference(Cont_T& Cont1, Cont_T2& Cont2, OutIt Dest, Pr Pred) {
+    return std::set_difference(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), Dest, Pred);
 }
 
 
-// FUNCTION TEMPLATE set_symmetric_difference
-template <class _Cont_T, class _InIt2, class _OutIt, class _Pr>
-_ZCONSTEXPR20 auto set_symmetric_difference(_Cont_T& _Cont, _InIt2 _First2, _InIt2 _Last2, _OutIt _Dest, _Pr _Pred) {
-    return set_symmetric_difference(begin(_Cont), end(_Cont), _First2, _Last2, _Dest, _Pred);
+// FUNCTION TEMPLATE set_difference
+template <class Cont_T, class Cont_T2, class DestCont_T, class Pr>
+ZCONSTEXPR20 auto set_difference(Cont_T& Cont1, Cont_T2& Cont2, DestCont_T& Dest, Pr Pred) {
+    return std::set_difference(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), std::begin(Dest), Pred);
 }
 
+template <class Cont_T, class InIt2, class OutIt>
+ZCONSTEXPR20 auto set_difference(Cont_T& Cont, InIt2 First2, InIt2 Last2, OutIt Dest) {
+    return std::set_difference(std::begin(Cont), std::end(Cont), First2, Last2, Dest);
+}
 
-// FUNCTION TEMPLATE set_symmetric_difference
-template <class _Cont_T, class _Cont_T2, class _OutIt, class _Pr>
-_ZCONSTEXPR20 auto set_symmetric_difference(_Cont_T& _Cont1, _Cont_T2& _Cont2, _OutIt _Dest, _Pr _Pred) {
-    return set_symmetric_difference(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), _Dest, _Pred);
+template <class Cont_T, class Cont_T2, class OutIt>
+ZCONSTEXPR20 auto set_difference(Cont_T& Cont1, Cont_T2& Cont2, OutIt Dest) {
+    return std::set_difference(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), Dest);
+}
+
+template <class Cont_T, class Cont_T2, class DestCont_T>
+ZCONSTEXPR20 auto set_difference(Cont_T& Cont1, Cont_T2& Cont2, DestCont_T& Dest) {
+    return std::set_difference(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), std::begin(Dest));
 }
 
 
 // FUNCTION TEMPLATE set_symmetric_difference
-template <class _Cont_T, class _Cont_T2, class _Dest_Cont_T, class _Pr>
-_ZCONSTEXPR20 auto set_symmetric_difference(_Cont_T& _Cont1, _Cont_T2& _Cont2, _Dest_Cont_T& _Dest, _Pr _Pred) {
-    return set_symmetric_difference(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), begin(_Dest), _Pred);
-}
-
-template <class _Cont_T, class _InIt2, class _OutIt>
-_ZCONSTEXPR20 auto set_symmetric_difference(_Cont_T& _Cont, _InIt2 _First2, _InIt2 _Last2, _OutIt _Dest) {
-    return set_symmetric_difference(begin(_Cont), end(_Cont), _First2, _Last2, _Dest);
-}
-
-template <class _Cont_T, class _Cont_T2, class _OutIt>
-_ZCONSTEXPR20 auto set_symmetric_difference(_Cont_T& _Cont1, _Cont_T2& _Cont2, _OutIt _Dest) {
-    return set_symmetric_difference(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), _Dest);
-}
-
-template <class _Cont_T, class _Cont_T2, class _Dest_Cont_T>
-_ZCONSTEXPR20 auto set_symmetric_difference(_Cont_T& _Cont1, _Cont_T2& _Cont2, _Dest_Cont_T& _Dest) {
-    return set_symmetric_difference(begin(_Cont1), end(_Cont1), begin(_Cont2), end(_Cont2), begin(_Dest));
+template <class Cont_T, class InIt2, class OutIt, class Pr>
+ZCONSTEXPR20 auto set_symmetric_difference(Cont_T& Cont, InIt2 First2, InIt2 Last2, OutIt Dest, Pr Pred) {
+    return std::set_symmetric_difference(std::begin(Cont), std::end(Cont), First2, Last2, Dest, Pred);
 }
 
 
-// FUNCTION TEMPLATE max_element
-template <class _Cont_T, class _Pr>
-_ZCONSTEXPR20 auto _Max_element_unchecked(_Cont_T& _Cont, _Pr _Pred) { // find largest element
-    return _Max_element_unchecked(begin(_Cont), end(_Cont), _Pred);
+// FUNCTION TEMPLATE set_symmetric_difference
+template <class Cont_T, class Cont_T2, class OutIt, class Pr>
+ZCONSTEXPR20 auto set_symmetric_difference(Cont_T& Cont1, Cont_T2& Cont2, OutIt Dest, Pr Pred) {
+    return std::set_symmetric_difference(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), Dest, Pred);
 }
 
-template <class _Cont_T, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto max_element(_Cont_T& _Cont, _Pr _Pred) { // find largest element
-    return max_element(begin(_Cont), end(_Cont), _Pred);
+
+// FUNCTION TEMPLATE set_symmetric_difference
+template <class Cont_T, class Cont_T2, class DestCont_T, class Pr>
+ZCONSTEXPR20 auto set_symmetric_difference(Cont_T& Cont1, Cont_T2& Cont2, DestCont_T& Dest, Pr Pred) {
+    return std::set_symmetric_difference(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), std::begin(Dest), Pred);
 }
 
-template <class _Cont_T>
-_ZNODISCARD _ZCONSTEXPR20 auto max_element(_Cont_T& _Cont) { // find largest element
-    return max_element(begin(_Cont), end(_Cont));
+template <class Cont_T, class InIt2, class OutIt>
+ZCONSTEXPR20 auto set_symmetric_difference(Cont_T& Cont, InIt2 First2, InIt2 Last2, OutIt Dest) {
+    return std::set_symmetric_difference(std::begin(Cont), std::end(Cont), First2, Last2, Dest);
+}
+
+template <class Cont_T, class Cont_T2, class OutIt>
+ZCONSTEXPR20 auto set_symmetric_difference(Cont_T& Cont1, Cont_T2& Cont2, OutIt Dest) {
+    return std::set_symmetric_difference(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), Dest);
+}
+
+template <class Cont_T, class Cont_T2, class DestCont_T>
+ZCONSTEXPR20 auto set_symmetric_difference(Cont_T& Cont1, Cont_T2& Cont2, DestCont_T& Dest) {
+    return std::set_symmetric_difference(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), std::end(Cont2), std::begin(Dest));
+}
+
+
+template <class Cont_T, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto max_element(Cont_T& Cont, Pr Pred) { // find largest element
+    return std::max_element(std::begin(Cont), std::end(Cont), Pred);
+}
+
+template <class Cont_T>
+ZNODISCARD ZCONSTEXPR20 auto max_element(Cont_T& Cont) { // find largest element
+    return std::max_element(std::begin(Cont), std::end(Cont));
 }
 
 
 // FUNCTION TEMPLATE min_element
-template <class _Cont_T, class _Pr>
-_ZCONSTEXPR20 auto _Min_element_unchecked(_Cont_T& _Cont, _Pr _Pred) { // find smallest element
-    return _Min_element_unchecked(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto min_element(Cont_T& Cont, Pr Pred) { // find smallest element
+    return std::min_element(std::begin(Cont), std::end(Cont), Pred);
 }
 
-template <class _Cont_T, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto min_element(_Cont_T& _Cont, _Pr _Pred) { // find smallest element
-    return min_element(begin(_Cont), end(_Cont), _Pred);
-}
-
-template <class _Cont_T>
-_ZNODISCARD _ZCONSTEXPR20 auto min_element(_Cont_T& _Cont) { // find smallest element
-    return min_element(begin(_Cont), end(_Cont));
+template <class Cont_T>
+ZNODISCARD ZCONSTEXPR20 auto min_element(Cont_T& Cont) { // find smallest element
+    return std::min_element(std::begin(Cont), std::end(Cont));
 }
 
 
 // FUNCTION TEMPLATE minmax_element
-template <class _Cont_T, class _Pr>
-_ZCONSTEXPR20 auto _Minmax_element_unchecked(_Cont_T& _Cont, _Pr _Pred) {
-    return _Minmax_element_unchecked(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto minmax_element(Cont_T& Cont, Pr Pred) {
+    return std::minmax_element(std::begin(Cont), std::end(Cont), Pred);
 }
 
-template <class _Cont_T, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto minmax_element(_Cont_T& _Cont, _Pr _Pred) {
-    return minmax_element(begin(_Cont), end(_Cont), _Pred);
-}
-
-template <class _Cont_T>
-_ZNODISCARD _ZCONSTEXPR20 auto minmax_element(_Cont_T& _Cont) {
-    return minmax_element(begin(_Cont), end(_Cont));
+template <class Cont_T>
+ZNODISCARD ZCONSTEXPR20 auto minmax_element(Cont_T& Cont) {
+    return std::minmax_element(std::begin(Cont), std::end(Cont));
 }
 
 
 // FUNCTION TEMPLATE next_permutation
-template <class _Cont_T, class _Pr>
-_ZCONSTEXPR20 bool next_permutation(_Cont_T& _Cont, _Pr _Pred) {
-    return next_permutation(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZCONSTEXPR20 bool next_permutation(Cont_T& Cont, Pr Pred) {
+    return std::next_permutation(std::begin(Cont), std::end(Cont), Pred);
 }
 
-template <class _Cont_T>
-_ZCONSTEXPR20 bool next_permutation(_Cont_T& _Cont) {
-    return next_permutation(begin(_Cont), end(_Cont));
+template <class Cont_T>
+ZCONSTEXPR20 bool next_permutation(Cont_T& Cont) {
+    return std::next_permutation(std::begin(Cont), std::end(Cont));
 }
 
 
 // FUNCTION TEMPLATE prev_permutation
-template <class _Cont_T, class _Pr>
-_ZCONSTEXPR20 bool prev_permutation(_Cont_T& _Cont, _Pr _Pred) {
-    return prev_permutation(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZCONSTEXPR20 bool prev_permutation(Cont_T& Cont, Pr Pred) {
+    return std::prev_permutation(std::begin(Cont), std::end(Cont), Pred);
 }
 
-template <class _Cont_T>
-_ZCONSTEXPR20 bool prev_permutation(_Cont_T& _Cont) {
-    return prev_permutation(begin(_Cont), end(_Cont));
+template <class Cont_T>
+ZCONSTEXPR20 bool prev_permutation(Cont_T& Cont) {
+    return std::prev_permutation(std::begin(Cont), std::end(Cont));
 }
 
 
 // FUNCTION TEMPLATES is_sorted AND is_sorted_until
-template <class _Cont_T, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto is_sorted_until(_Cont_T& _Cont, _Pr _Pred) {
-    return is_sorted_until(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto is_sorted_until(Cont_T& Cont, Pr Pred) {
+    return std::is_sorted_until(std::begin(Cont), std::end(Cont), Pred);
 }
 
-template <class _Cont_T, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 bool is_sorted(_Cont_T& _Cont, _Pr _Pred) {
-    return is_sorted(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZNODISCARD ZCONSTEXPR20 bool is_sorted(Cont_T& Cont, Pr Pred) {
+    return std::is_sorted(std::begin(Cont), std::end(Cont), Pred);
 }
 
-template <class _Cont_T>
-_ZNODISCARD _ZCONSTEXPR20 auto is_sorted_until(_Cont_T& _Cont) {
-    return is_sorted_until(begin(_Cont), end(_Cont));
+template <class Cont_T>
+ZNODISCARD ZCONSTEXPR20 auto is_sorted_until(Cont_T& Cont) {
+    return std::is_sorted_until(std::begin(Cont), std::end(Cont));
 }
 
-template <class _Cont_T>
-_ZNODISCARD _ZCONSTEXPR20 bool is_sorted(_Cont_T& _Cont) { // test if range is ordered by operator<
-    return is_sorted(begin(_Cont), end(_Cont));
+template <class Cont_T>
+ZNODISCARD ZCONSTEXPR20 bool is_sorted(Cont_T& Cont) { // test if range is ordered by operator<
+    return std::is_sorted(std::begin(Cont), std::end(Cont));
 }
 
 //numeric
 
-template <class _Cont_T, class _Ty, class _Fn>
-_ZNODISCARD _ZCONSTEXPR20 _Ty accumulate(_Cont_T& _Cont, _Ty _Val, _Fn _Reduce_op) {
-    return accumulate(begin(_Cont), end(_Cont), _Val, _Reduce_op);
+template <class Cont_T, class Ty, class Fn>
+ZNODISCARD ZCONSTEXPR20 Ty accumulate(Cont_T& Cont, Ty Val, Fn Reduce_op) {
+    return std::accumulate(std::begin(Cont), std::end(Cont), Val, Reduce_op);
 }
 
-template <class _Cont_T, class _Ty>
-_ZNODISCARD _ZCONSTEXPR20 _Ty accumulate(_Cont_T& _Cont, _Ty _Val) {
-    return accumulate(begin(_Cont), end(_Cont), _Val);
+template <class Cont_T, class Ty>
+ZNODISCARD ZCONSTEXPR20 Ty accumulate(Cont_T& Cont, Ty Val) {
+    return std::accumulate(std::begin(Cont), std::end(Cont), Val);
 }
 
-template <class _Cont_T>
-_ZNODISCARD _ZCONSTEXPR20 auto acc(_Cont_T& _Cont) {
-    return accumulate(begin(_Cont), end(_Cont), typename remove_reference<decltype(*(begin(_Cont)))>::type());
+template <class Cont_T>
+ZNODISCARD ZCONSTEXPR20 auto acc(Cont_T& Cont) {
+    return std::accumulate(std::begin(Cont), std::end(Cont), typename std::remove_reference<decltype(*(std::begin(Cont)))>::type());
 }
 
 template<typename T>
 struct zbfunction_traits;
 
-template<typename R, typename Arg1, typename Arg2>
-struct zbfunction_traits<std::function<R(*)(Arg1, Arg2)>>
+template<typename T>
+struct zbfunction_traits : zbfunction_traits<decltype( &T::operator() )>
 {
-    typedef R result_type;
-    typedef Arg1 param1;
-    typedef Arg2 param2;
 };
 
-template <class _Cont_T, class _Fn>
-_ZNODISCARD _ZCONSTEXPR20 auto acc(_Cont_T& _Cont, _Fn _Reduce_op) {
-    return accumulate(begin(_Cont), end(_Cont), zbfunction_traits<function<_Fn> >::result_type(), _Reduce_op);
+template<typename R, typename Arg1, typename Arg2>
+struct zbfunction_traits<R(*)(Arg1, Arg2)>
+{
+    using result_type = R;
+    using param1 = Arg1;
+    using param2 = Arg2;
+};
+
+template<typename C, typename R, typename Arg1, typename Arg2>
+struct zbfunction_traits<R( C::* )( Arg1, Arg2 )>
+{
+    using result_type = R;
+    using param1 = Arg1;
+    using param2 = Arg2;
+};
+
+template<typename C, typename R, typename Arg1, typename Arg2>
+struct zbfunction_traits<R( C::* )( Arg1, Arg2 ) const>
+{
+    using result_type = R;
+    using param1 = Arg1;
+    using param2 = Arg2;
+};
+
+template <class Cont_T, class Fn>
+ZNODISCARD ZCONSTEXPR20 auto acc(Cont_T& Cont, Fn Reduce_op) {
+    return std::accumulate(std::begin(Cont), std::end(Cont),
+            typename zbfunction_traits<Fn>::result_type(), Reduce_op);
+}
+
+template <class Cont_T, class Ty, template<class...> typename Fn>
+ZNODISCARD ZCONSTEXPR20 auto acc(Cont_T& Cont, Fn<Ty> Reduce_op) {
+    return std::accumulate(std::begin(Cont), std::end(Cont),
+            typename zbfunction_traits<decltype(Fn<typename std::remove_reference<decltype(*std::begin(Cont))>::type>())>::result_type(), Reduce_op);
 }
 
 // FUNCTION TEMPLATE inner_product
-template <class _Cont_T, class _InIt2, class _Ty, class _BinOp1, class _BinOp2>
-_ZNODISCARD _ZCONSTEXPR20 _Ty inner_product(
-    _Cont_T& _Cont, _InIt2 _First2, _Ty _Val, _BinOp1 _Reduce_op, _BinOp2 _Transform_op) {
-    return inner_product(begin(_Cont), end(_Cont), _First2, _Val, _Reduce_op, _Transform_op);
+template <class Cont_T, class InIt2, class Ty, class BinOp1, class BinOp2>
+ZNODISCARD ZCONSTEXPR20 Ty inner_product(
+    Cont_T& Cont, InIt2 First2, Ty Val, BinOp1 Reduce_op, BinOp2 Transform_op) {
+    return std::inner_product(std::begin(Cont), std::end(Cont), First2, Val, Reduce_op, Transform_op);
 }
 
 // FUNCTION TEMPLATE inner_product
-template <class _Cont_T1, class _Cont_T2, class _Ty, class _BinOp1, class _BinOp2>
-_ZNODISCARD _ZCONSTEXPR20 _Ty inner_product(
-    _Cont_T1& _Cont1, _Cont_T2& _Cont2, _Ty _Val, _BinOp1 _Reduce_op, _BinOp2 _Transform_op) {
-    return inner_product(begin(_Cont1), end(_Cont1), begin(_Cont2), _Val, _Reduce_op, _Transform_op);
+template <class Cont_T1, class Cont_T2, class Ty, class BinOp1, class BinOp2>
+ZNODISCARD ZCONSTEXPR20 Ty inner_product(
+    Cont_T1& Cont1, Cont_T2& Cont2, Ty Val, BinOp1 Reduce_op, BinOp2 Transform_op) {
+    return std::inner_product(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), Val, Reduce_op, Transform_op);
 }
 
-template <class _Cont_T, class _InIt2, class _Ty>
-_ZNODISCARD _ZCONSTEXPR20 _Ty inner_product(_Cont_T& _Cont, const _InIt2 _First2, _Ty _Val) {
-    return inner_product(begin(_Cont), end(_Cont), _First2, move(_Val));
+template <class Cont_T, class InIt2, class Ty>
+ZNODISCARD ZCONSTEXPR20 Ty inner_product(Cont_T& Cont, const InIt2 First2, Ty Val) {
+    return std::inner_product(std::begin(Cont), std::end(Cont), First2, move(Val));
 }
 
-template <class _Cont_T1, class _Cont_T2, class _Ty>
-_ZNODISCARD _ZCONSTEXPR20 _Ty inner_product(_Cont_T1& _Cont1, _Cont_T2& _Cont2, _Ty _Val) {
-    return inner_product(begin(_Cont1), end(_Cont1), begin(_Cont2), move(_Val));
+template <class Cont_T1, class Cont_T2, class Ty>
+ZNODISCARD ZCONSTEXPR20 Ty inner_product(Cont_T1& Cont1, Cont_T2& Cont2, Ty Val) {
+    return std::inner_product(std::begin(Cont1), std::end(Cont1), std::begin(Cont2), move(Val));
 }
 
 // FUNCTION TEMPLATE partial_sum
-template <class _Cont_T, class _OutIt, class _BinOp>
-_ZCONSTEXPR20 auto partial_sum(_Cont_T& _Cont, _OutIt _Dest, _BinOp _Reduce_op) {
-    return partial_sum(begin(_Cont), end(_Cont), _Dest, _Reduce_op);
+template <class Cont_T, class OutIt, class BinOp>
+ZCONSTEXPR20 auto partial_sum(Cont_T& Cont, OutIt Dest, BinOp Reduce_op) {
+    return std::partial_sum(std::begin(Cont), std::end(Cont), Dest, Reduce_op);
 }
 
-template <class _Cont_T1, class _Cont_T2, class _BinOp>
-_ZCONSTEXPR20 auto partial_sum(_Cont_T1& _Cont, _Cont_T2& _Dest, _BinOp _Reduce_op) {
-    return partial_sum(begin(_Cont), end(_Cont), begin(_Dest), _Reduce_op);
+template <class Cont_T1, class Cont_T2, class BinOp>
+ZCONSTEXPR20 auto partial_sum(Cont_T1& Cont, Cont_T2& Dest, BinOp Reduce_op) {
+    return std::partial_sum(std::begin(Cont), std::end(Cont), std::begin(Dest), Reduce_op);
 }
 
-template <class _Cont_T, class _OutIt>
-_ZCONSTEXPR20 auto partial_sum(_Cont_T& _Cont, _OutIt _Dest) {
-    return partial_sum(begin(_Cont), end(_Cont), _Dest);
+template <class Cont_T, class OutIt>
+ZCONSTEXPR20 auto partial_sum(Cont_T& Cont, OutIt Dest) {
+    return std::partial_sum(std::begin(Cont), std::end(Cont), Dest);
 }
 
-template <class _Cont_T1, class _Cont_T2>
-_ZCONSTEXPR20 auto partial_sum(_Cont_T1& _Cont, _Cont_T2& _Dest) {
-    return partial_sum(begin(_Cont), end(_Cont), begin(_Dest));
+template <class Cont_T1, class Cont_T2>
+ZCONSTEXPR20 auto partial_sum(Cont_T1& Cont, Cont_T2& Dest) {
+    return std::partial_sum(std::begin(Cont), std::end(Cont), std::begin(Dest));
 }
 
 // FUNCTION TEMPLATE adjacent_difference
-template <class _Cont_T, class _OutIt, class _BinOp>
-_ZCONSTEXPR20 auto adjacent_difference(_Cont_T& _Cont, _OutIt _Dest, _BinOp _Func) {
-    return adjacent_difference(begin(_Cont), end(_Cont), _Dest, _Func);
+template <class Cont_T, class OutIt, class BinOp>
+ZCONSTEXPR20 auto adjacent_difference(Cont_T& Cont, OutIt Dest, BinOp Func) {
+    return std::adjacent_difference(std::begin(Cont), std::end(Cont), Dest, Func);
 }
 
-template <class _Cont_T1, class _Cont_T2, class _BinOp>
-_ZCONSTEXPR20 auto adjacent_difference(_Cont_T1& _Cont, _Cont_T2& _Dest, _BinOp _Func) {
-    return adjacent_difference(begin(_Cont), end(_Cont), begin(_Dest), _Func);
+template <class Cont_T1, class Cont_T2, class BinOp>
+ZCONSTEXPR20 auto adjacent_difference(Cont_T1& Cont, Cont_T2& Dest, BinOp Func) {
+    return std::adjacent_difference(std::begin(Cont), std::end(Cont), std::begin(Dest), Func);
 }
 
-template <class _Cont_T, class _OutIt>
-_ZCONSTEXPR20 auto adjacent_difference(_Cont_T& _Cont, _OutIt _Dest) {
-    return adjacent_difference(begin(_Cont), end(_Cont), _Dest);
+template <class Cont_T, class OutIt>
+ZCONSTEXPR20 auto adjacent_difference(Cont_T& Cont, OutIt Dest) {
+    return std::adjacent_difference(std::begin(Cont), std::end(Cont), Dest);
 }
 
-template <class _Cont_T1, class _Cont_T2>
-_ZCONSTEXPR20 auto adjacent_difference(_Cont_T1& _Cont, _Cont_T2& _Dest) {
-    return adjacent_difference(begin(_Cont), end(_Cont), begin(_Dest));
+template <class Cont_T1, class Cont_T2>
+ZCONSTEXPR20 auto adjacent_difference(Cont_T1& Cont, Cont_T2& Dest) {
+    return std::adjacent_difference(std::begin(Cont), std::end(Cont), std::begin(Dest));
 }
 
 // FUNCTION TEMPLATE iota
-template <class _Cont_T, class _Ty>
-_ZCONSTEXPR20 void iota(_Cont_T& _Cont, _Ty _Val) {
-    return iota(begin(_Cont), end(_Cont), _Val);
+template <class Cont_T, class Ty>
+ZCONSTEXPR20 void iota(Cont_T& Cont, Ty Val) {
+    return std::iota(std::begin(Cont), std::end(Cont), Val);
 }
 
 
 // FUNCTION TEMPLATE distance
-template <class _Cont_T>
-_ZNODISCARD _ZCONSTEXPR20 auto distance(_Cont_T& _Cont) {
-    return distance(begin(_Cont), end(_Cont));
+template <class Cont_T>
+ZNODISCARD ZCONSTEXPR20 auto distance(Cont_T& Cont) {
+    return std::distance(std::begin(Cont), std::end(Cont));
 }
 
 // FUNCTION TEMPLATE copy
-template <class _Cont_T, class _OutIt>
-_ZCONSTEXPR20 auto copy(_Cont_T& _Cont, _OutIt _Dest) {
-    return copy(begin(_Cont), end(_Cont), _Dest);
+template <class Cont_T, class OutIt>
+ZCONSTEXPR20 auto copy(Cont_T& Cont, OutIt Dest) {
+    return std::copy(std::begin(Cont), std::end(Cont), Dest);
 }
 
-template <class _Cont_T1, class _Cont_T2>
-_ZCONSTEXPR20 auto copy(_Cont_T1& _Cont, _Cont_T2& _Dest) {
-    return copy(begin(_Cont), end(_Cont), begin(_Dest));
+template <class Cont_T1, class Cont_T2>
+ZCONSTEXPR20 auto copy(Cont_T1& Cont, Cont_T2& Dest) {
+    return std::copy(std::begin(Cont), std::end(Cont), std::begin(Dest));
 }
 
 // FUNCTION TEMPLATE copy_n
-template <class _Cont_T, class _Diff, class _OutIt>
-_ZCONSTEXPR20 auto copy_n(_Cont_T& _Cont, _Diff _Count_raw, _OutIt _Dest) {
-    return copy_n(begin(_Cont), _Count_raw, _Dest);
+template <class Cont_T, class Diff, class OutIt>
+ZCONSTEXPR20 auto copy_n(Cont_T& Cont, Diff Count_raw, OutIt Dest) {
+    return std::copy_n(std::begin(Cont), Count_raw, Dest);
 }
 
-template <class _Cont_T1, class _Diff, class _Cont_T2>
-_ZCONSTEXPR20 auto copy_n(_Cont_T1& _Cont, _Diff _Count_raw, _Cont_T2& _Dest) {
-    return copy_n(begin(_Cont), _Count_raw, begin(_Dest));
+template <class Cont_T1, class Diff, class Cont_T2>
+ZCONSTEXPR20 auto copy_n(Cont_T1& Cont, Diff Count_raw, Cont_T2& Dest) {
+    return std::copy_n(std::begin(Cont), Count_raw, std::begin(Dest));
 }
 
-template <class _Cont_T, class _BidIt2>
-_ZCONSTEXPR20 auto copy_backward(_Cont_T& _Cont, _BidIt2 _Dest) {
-    return copy_backward(begin(_Cont), end(_Cont), _Dest);
+template <class Cont_T, class BidIt2>
+ZCONSTEXPR20 auto copy_backward(Cont_T& Cont, BidIt2 Dest) {
+    return std::copy_backward(std::begin(Cont), std::end(Cont), Dest);
 }
 
-template <class _Cont_T1, class _Cont_T2>
-_ZCONSTEXPR20 auto copy_backward(_Cont_T1& _Cont, _Cont_T2& _Dest) {
-    return copy_backward(begin(_Cont), end(_Cont), begin(_Dest));
+template <class Cont_T1, class Cont_T2>
+ZCONSTEXPR20 auto copy_backward(Cont_T1& Cont, Cont_T2& Dest) {
+    return std::copy_backward(std::begin(Cont), std::end(Cont), std::begin(Dest));
 }
 
-template <class _Cont_T, class _OutIt>
-_ZCONSTEXPR20 auto move(_Cont_T& _Cont, _OutIt _Dest) {
-    return move(begin(_Cont), end(_Cont), _Dest);
+template <class Cont_T, class OutIt>
+ZCONSTEXPR20 auto move(Cont_T& Cont, OutIt Dest) {
+    return std::move(std::begin(Cont), std::end(Cont), Dest);
 }
 
-template <class _Cont_T1, class _Cont_T2>
-_ZCONSTEXPR20 auto move(_Cont_T1& _Cont, _Cont_T2& _Dest) {
-    return move(begin(_Cont), end(_Cont), begin(_Dest));
+template <class Cont_T1, class Cont_T2>
+ZCONSTEXPR20 auto move(Cont_T1& Cont, Cont_T2& Dest) {
+    return std::move(std::begin(Cont), std::end(Cont), std::begin(Dest));
 }
 
-template <class _Cont_T, class _BidIt2>
-_ZCONSTEXPR20 auto move_backward(_Cont_T& _Cont, _BidIt2 _Dest) {
-    return move_backward(begin(_Cont), end(_Cont), _Dest);
+template <class Cont_T, class BidIt2>
+ZCONSTEXPR20 auto move_backward(Cont_T& Cont, BidIt2 Dest) {
+    return std::move_backward(std::begin(Cont), std::end(Cont), Dest);
 }
 
-template <class _Cont_T1, class _Cont_T2>
-_ZCONSTEXPR20 auto move_backward(_Cont_T1& _Cont, _Cont_T2& _Dest) {
-    return move_backward(begin(_Cont), end(_Cont), begin(_Dest));
+template <class Cont_T1, class Cont_T2>
+ZCONSTEXPR20 auto move_backward(Cont_T1& Cont, Cont_T2& Dest) {
+    return std::move_backward(std::begin(Cont), std::end(Cont), std::begin(Dest));
 }
 
 // FUNCTION TEMPLATE fill
-template <class _Cont_T, class _Ty>
-_ZCONSTEXPR20 void fill(_Cont_T& _Cont, const _Ty& _Val) {
-    fill(begin(_Cont), end(_Cont), _Val);
+template <class Cont_T, class Ty>
+ZCONSTEXPR20 void fill(Cont_T& Cont, const Ty& Val) {
+    return std::fill(std::begin(Cont), std::end(Cont), Val);
 }
 
 // FUNCTION TEMPLATE fill_n
-template <class _Cont_T, class _Diff, class _Ty>
-_ZCONSTEXPR20 auto fill_n(_Cont_T& _Dest, const _Diff _Count_raw, const _Ty& _Val) {
-    return fill(begin(_Dest), _Count_raw, _Val);
+template <class Cont_T, class Diff, class Ty>
+ZCONSTEXPR20 auto fill_n(Cont_T& Dest, const Diff Count_raw, const Ty& Val) {
+    return std::fill(std::begin(Dest), Count_raw, Val);
 }
 
-template <class _Cont_T, class _InIt2, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 bool equal(_Cont_T& _Cont, const _InIt2 _First2, _Pr _Pred) {
-    return equal(begin(_Cont), end(_Cont), _First2, _Pred);
+template <class Cont_T, class InIt2, class Pr>
+ZNODISCARD ZCONSTEXPR20 bool equal(Cont_T& Cont, const InIt2 First2, Pr Pred) {
+    return std::equal(std::begin(Cont), std::end(Cont), First2, Pred);
 }
 
-template <class _Cont_T, class _InIt2, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 bool equal(_Cont_T& _Cont, const _InIt2 _First2, const _InIt2 _Last2, _Pr _Pred) {
-    return equal(begin(_Cont), end(_Cont), _First2, _Last2, _Pred);
+template <class Cont_T, class InIt2, class Pr>
+ZNODISCARD ZCONSTEXPR20 bool equal(Cont_T& Cont, const InIt2 First2, const InIt2 Last2, Pr Pred) {
+    return std::equal(std::begin(Cont), std::end(Cont), First2, Last2, Pred);
 }
 
-template <class _Cont_T1, class _Cont_T2, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 bool equal(_Cont_T1& _Cont, _Cont_T2& _Cont2, _Pr _Pred, bool _FromBeginToEnd = false) {
-    return _FromBeginToEnd ?
-        equal(begin(_Cont), end(_Cont), begin(_Cont2), end(_Cont2), _Pred) :
-        equal(begin(_Cont), end(_Cont), begin(_Cont2), _Pred);
+template <class Cont_T1, class Cont_T2, class Pr>
+ZNODISCARD ZCONSTEXPR20 bool equal(Cont_T1& Cont, Cont_T2& Cont2, Pr Pred, bool FromBeginToEnd = false) {
+    return FromBeginToEnd ?
+        std::equal(std::begin(Cont), std::end(Cont), std::begin(Cont2), std::end(Cont2), Pred) :
+        std::equal(std::begin(Cont), std::end(Cont), std::begin(Cont2), Pred);
 }
 
-template <class _Cont_T, class _InIt2>
-_ZNODISCARD _ZCONSTEXPR20 bool equal(_Cont_T& _Cont, const _InIt2 _First2) {
-    return equal(begin(_Cont), end(_Cont), _First2);
+template <class Cont_T, class InIt2>
+ZNODISCARD ZCONSTEXPR20 bool equal(Cont_T& Cont, const InIt2 First2) {
+    return std::equal(std::begin(Cont), std::end(Cont), First2);
 }
 
 
-template <class _Cont_T, class _InIt2>
-_ZNODISCARD _ZCONSTEXPR20 bool equal(_Cont_T& _Cont, const _InIt2 _First2, const _InIt2 _Last2) {
-    return equal(begin(_Cont), end(_Cont), _First2, _Last2);
+template <class Cont_T, class InIt2>
+ZNODISCARD ZCONSTEXPR20 bool equal(Cont_T& Cont, const InIt2 First2, const InIt2 Last2) {
+    return std::equal(std::begin(Cont), std::end(Cont), First2, Last2);
 }
 
-template <class _Cont_T1, class _Cont_T2>
-_ZNODISCARD _ZCONSTEXPR20 bool equal(_Cont_T1& _Cont, _Cont_T2& _Cont2, bool _FromBeginToEnd = false) {
-    return _FromBeginToEnd ?
-        equal(begin(_Cont), end(_Cont), begin(_Cont2), end(_Cont2)) :
-        equal(begin(_Cont), end(_Cont), begin(_Cont2));
+template <class Cont_T1, class Cont_T2>
+ZNODISCARD ZCONSTEXPR20 bool equal(Cont_T1& Cont, Cont_T2& Cont2, bool FromBeginToEnd = false) {
+    return FromBeginToEnd ?
+        std::equal(std::begin(Cont), std::end(Cont), std::begin(Cont2), std::end(Cont2)) :
+        std::equal(std::begin(Cont), std::end(Cont), std::begin(Cont2));
 }
 
-template <class _Cont_T, class _InIt2, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 bool lexicographical_compare(_Cont_T& _Cont, _InIt2 _First2, _InIt2 _Last2, _Pr _Pred) {
-    return lexicographical_compare(begin(_Cont), end(_Cont), _First2, _Last2, _Pred);
+template <class Cont_T, class InIt2, class Pr>
+ZNODISCARD ZCONSTEXPR20 bool lexicographical_compare(Cont_T& Cont, InIt2 First2, InIt2 Last2, Pr Pred) {
+    return std::lexicographical_compare(std::begin(Cont), std::end(Cont), First2, Last2, Pred);
 }
 
-template <class _Cont_T1, class _Cont_T2, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 bool lexicographical_compare(_Cont_T1& _Cont, _Cont_T2& _Cont2, _Pr _Pred) {
-    return lexicographical_compare(begin(_Cont), end(_Cont), begin(_Cont2), end(_Cont2), _Pred);
+template <class Cont_T1, class Cont_T2, class Pr>
+ZNODISCARD ZCONSTEXPR20 bool lexicographical_compare(Cont_T1& Cont, Cont_T2& Cont2, Pr Pred) {
+    return std::lexicographical_compare(std::begin(Cont), std::end(Cont), std::begin(Cont2), std::end(Cont2), Pred);
 }
 
-template <class _Cont_T, class _InIt2>
-_ZNODISCARD _ZCONSTEXPR20 bool lexicographical_compare(_Cont_T& _Cont, _InIt2 _First2, _InIt2 _Last2) {
-    return lexicographical_compare(begin(_Cont), end(_Cont), _First2, _Last2);
+template <class Cont_T, class InIt2>
+ZNODISCARD ZCONSTEXPR20 bool lexicographical_compare(Cont_T& Cont, InIt2 First2, InIt2 Last2) {
+    return std::lexicographical_compare(std::begin(Cont), std::end(Cont), First2, Last2);
 }
 
-template <class _Cont_T1, class _Cont_T2>
-_ZNODISCARD _ZCONSTEXPR20 bool lexicographical_compare(_Cont_T1& _Cont, _Cont_T2& _Cont2) {
-    return lexicographical_compare(begin(_Cont), end(_Cont), begin(_Cont2), end(_Cont2));
+template <class Cont_T1, class Cont_T2>
+ZNODISCARD ZCONSTEXPR20 bool lexicographical_compare(Cont_T1& Cont, Cont_T2& Cont2) {
+    return std::lexicographical_compare(std::begin(Cont), std::end(Cont), std::begin(Cont2), std::end(Cont2));
 }
 
-template <class _Cont_T, class _Ty>
-_ZNODISCARD _ZCONSTEXPR20 auto find(_Cont_T& _Cont, const _Ty& _Val) {
-    return find(begin(_Cont), end(_Cont), _Val);
+template <class Cont_T, class Ty>
+ZNODISCARD ZCONSTEXPR20 auto find(Cont_T& Cont, const Ty& Val) {
+    return std::find(std::begin(Cont), std::end(Cont), Val);
 }
 
 // FUNCTION TEMPLATE count
-template <class _Cont_T, class _Ty>
-_ZNODISCARD _ZCONSTEXPR20 auto count(_Cont_T& _Cont, const _Ty& _Val) {
-    return equal(begin(_Cont), end(_Cont), _Val);
+template <class Cont_T, class Ty>
+ZNODISCARD ZCONSTEXPR20 auto count(Cont_T& Cont, const Ty& Val) {
+    return std::equal(std::begin(Cont), std::end(Cont), Val);
 }
 
 // FUNCTION TEMPLATE reverse
-template <class _Cont_T>
-_ZCONSTEXPR20 void reverse(_Cont_T& _Cont) {
-    reverse(begin(_Cont), end(_Cont));
+template <class Cont_T>
+ZCONSTEXPR20 void reverse(Cont_T& Cont) {
+    return std::reverse(std::begin(Cont), std::end(Cont));
 }
 
-template <class _Cont_T, class _FwdIt>
-_ZCONSTEXPR20 auto rotate(_Cont_T& _Cont, _FwdIt _Mid) {
-    return rotate(begin(_Cont), _Mid, end(_Cont));
+template <class Cont_T, class FwdIt>
+ZCONSTEXPR20 auto rotate(Cont_T& Cont, FwdIt Mid) {
+    return std::rotate(std::begin(Cont), Mid, std::end(Cont));
 }
 
-template <class _Cont_T>
-_ZCONSTEXPR20 auto rotate(_Cont_T& _Cont, size_t _Mid) {
-    return rotate(begin(_Cont), advance(begin(_Cont), _Mid), end(_Cont));
+template <class Cont_T>
+ZCONSTEXPR20 auto rotate(Cont_T& Cont, size_t Mid) {
+    return std::rotate(std::begin(Cont), std::advance(std::begin(Cont), Mid), std::end(Cont));
 }
 
 // FUNCTION TEMPLATE find_if
-template <class _Cont_T, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto find_if(_Cont_T& _Cont, _Pr _Pred) { // find first satisfying _Pred
-    return find_if(begin(_Cont), end(_Cont), _Pred);
+template <class Cont_T, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto find_if(Cont_T& Cont, Pr Pred) { // find first satisfying Pred
+    return std::find_if(std::begin(Cont), std::end(Cont), Pred);
 }
 
 // FUNCTION TEMPLATE lower_bound
-template <class _Cont_T, class _Ty, class _Pr>
-_ZNODISCARD _ZCONSTEXPR20 auto lower_bound(_Cont_T& _Cont, const _Ty& _Val, _Pr _Pred) {
-    return lower_bound(begin(_Cont), end(_Cont), _Val, _Pred);
+template <class Cont_T, class Ty, class Pr>
+ZNODISCARD ZCONSTEXPR20 auto lower_bound(Cont_T& Cont, const Ty& Val, Pr Pred) {
+    return std::lower_bound(std::begin(Cont), std::end(Cont), Val, Pred);
 }
 
-template <class _Cont_T, class _Ty>
-_ZNODISCARD _ZCONSTEXPR20 auto lower_bound(_Cont_T& _Cont, const _Ty& _Val) {
-    return lower_bound(begin(_Cont), end(_Cont), _Val);
+template <class Cont_T, class Ty>
+ZNODISCARD ZCONSTEXPR20 auto lower_bound(Cont_T& Cont, const Ty& Val) {
+    return std::lower_bound(std::begin(Cont), std::end(Cont), Val);
 }
 
 } // namespace std
@@ -1341,7 +1252,7 @@ _ZNODISCARD _ZCONSTEXPR20 auto lower_bound(_Cont_T& _Cont, const _Ty& _Val) {
 #if defined _MSC_VER
     #pragma pack(pop)
 #endif
-#undef _ZNODISCARD
-#undef _ZCONSTEXPR20
+#undef ZNODISCARD
+#undef ZCONSTEXPR20
 
-#endif // _ZALGORITHM_
+#endif // ZALGORITHM_
